@@ -8,7 +8,7 @@ public class Service {
         this.description = description;
         this.price = price;
     }
-    public String getService() {
+    public String getServiceName() {
         return serviceName;
     }
 
@@ -24,4 +24,5 @@ public class Service {
     public void setPrice(double price) {
         this.price = price;
     }
+   
 }
