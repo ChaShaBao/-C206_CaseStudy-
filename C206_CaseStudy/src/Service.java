@@ -21,9 +21,6 @@ public class Service {
     public void setService(String service) {
         this.serviceName = service;
     }
-    public void setDescription(String description) {
-        this.description = description;
-    }
     public void setPrice(double price) {
         this.price = price;
     }
