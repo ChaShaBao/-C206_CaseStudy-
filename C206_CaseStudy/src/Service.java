@@ -1,4 +1,4 @@
-class Service {
+public class Service {
     String serviceName;
     String description;
     double price;
