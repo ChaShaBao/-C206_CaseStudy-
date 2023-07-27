@@ -8,7 +8,7 @@ public class C206_CaseStudy {
     ArrayList<Request> requestList = new ArrayList<Request>();
     ArrayList<Appointment> appointmentList = new ArrayList<Appointment>();
     
-    //testForUser
+    //testForUser 
     userList.add(new User("Tom", "Tom@myrp.edu.sg","123",92012910,"Jurong West"));
 	userList.add(new User("Jerry", "Jerry@myrp.edu.sg","123",92092910,"Jurong East"));
 	userList.add(new User("Alex", "Alex@gmail.com","123",92092990, "Yishun"));
