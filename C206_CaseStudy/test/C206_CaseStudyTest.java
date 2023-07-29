@@ -51,6 +51,19 @@ public class C206_CaseStudyTest {
 	        C206_CaseStudy.deleteUser(userList, nonExistingEmail);
 	        assertEquals("Checking if the list remains unchanged", 1, userList.size());
 	    }
+	 @Test
+	 public void testAddUserWithEmailValidation() {
+	     // Test adding a new user with a valid email format
+	     User newUserValidEmail = new User("John", "john@example.com", "123", 98765432, "Somewhere");
+	     C206_CaseStudy.addUser(userList, newUserValidEmail);
+	     assertEquals("Checking if the user was added", 3, userList.size());
+	     assertEquals("Checking if the user was added correctly", newUserValidEmail, userList.get(2));
+
+	     // Test adding a new user with an invalid email format (missing @ symbol)
+	     User newUserInvalidEmail = new User("Jane", "invalid-email.com", "456", 87654321, "Nowhere");
+	     C206_CaseStudy.addUser(userList, newUserInvalidEmail);
+	     assertEquals("Checking if the user with invalid email was rejected", 3, userList.size());
+	 }
 	 
 
 }
