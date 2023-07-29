@@ -26,10 +26,14 @@ public class C206_CaseStudy {
     		
     		C206_CaseStudy.menuUser();
     		int a=Helper.readInt("Enter an option > ");
-    		if(a==1) {
-    			User u = inputUser();
-				C206_CaseStudy.addUser(userList, u);
-				System.out.println("*** User added ***");
+    		if (a == 1) {
+    		    User u = inputUser(userList);
+    		    if (u.getName().trim().isEmpty()) {
+    		        System.out.println("INVALID USERNAME");
+    		    } else {
+    		        C206_CaseStudy.addUser(userList, u);
+    		        System.out.println("*** User added ***");
+    		    }
     		}else if (a == 2) {
     			C206_CaseStudy.viewAllUser(userList);
     		}else if (a==3) {
@@ -67,33 +71,43 @@ public class C206_CaseStudy {
 		System.out.println("2. View all User");
 		System.out.println("3. Delete User");
 	}
-	public static User inputUser() {
-		String name = Helper.readString("Enter Username > ");
-		String email = Helper.readString("Enter Email > ");
-		String password=Helper.readString("Enter Password > ");
-		int contactNumber= Helper.readInt("Enter Contact Number > ");
-		String address=Helper.readString("Enter Address > ");
-		User u = new User(name,email,password,contactNumber,address);
-		return u;
+	public static User inputUser(ArrayList<User> userList) {
+	    String name = "";
+	    while (true) {
+	        name = Helper.readString("Enter Username > ");
+	        if (name.trim().isEmpty()) {
+	            System.out.println("INVALID USERNAME: Username cannot be empty.");
+	        } else {
+	            boolean isDuplicate = false;
+	            for (User user : userList) {
+	                if (user.getName().equalsIgnoreCase(name.trim())) {
+	                    isDuplicate = true;
+	                    break;
+	                }
+	            }
+
+	            if (isDuplicate) {
+	                System.out.println("INVALID USERNAME: Username already exists.");
+	            } else {
+	                break;
+	            }
+	        }
+	    }
+
+	    String email = Helper.readString("Enter Email > ");
+	    String password = Helper.readString("Enter Password > ");
+	    int contactNumber = Helper.readInt("Enter Contact Number > ");
+	    String address = Helper.readString("Enter Address > ");
+	    User u = new User(name, email, password, contactNumber, address);
+	    return u;
 	}
-	public static void addUser(ArrayList<User>UserList,User u) {
-		User user;
-		for(int i = 0; i < UserList.size(); i++) {
-			user = UserList.get(i);
-			if (user.getName().equalsIgnoreCase(u.getName()) )
-				return;
-		}
-		if ((u.getName().isEmpty()) || (u.getAddress().isEmpty()) ) {
-			return;
-		}
-		UserList.add(u);
-	}
+	
 	public static String retrieveAllUser(ArrayList<User> UserList) {
 		String output = "";
 		
 		for (int i = 0; i < UserList.size(); i++) {
 
-			output += String.format("%-10s %-20s %-10s %-15d %-10s\n", 
+			output += String.format("%-10s %-20s %-10s %-15d %-20s\n", 
 					UserList.get(i).getName(),
 					UserList.get(i).getEmail(), 
 					UserList.get(i).getPassword(),
@@ -102,12 +116,12 @@ public class C206_CaseStudy {
 		}
 		return output;
 	}
-	public static void viewAllUser(ArrayList<User> UserList) {
-		C206_CaseStudy.setHeader("USER LIST");
-		String output = String.format("%-10s %-20s %-10s %-15s %-10s\n", "USERNAME", "EMAIL",
-				 "PASSWORD", "CONTACT NUMBER","ADDRESS");
-		 output += retrieveAllUser(UserList);
-		System.out.println(output);
+	public static void viewAllUser(ArrayList<User> userList) {
+	    C206_CaseStudy.setHeader("USER LIST");
+	    String output = String.format("%-10s %-20s %-10s %-15s %-20s\n", "USERNAME", "EMAIL",
+	            "PASSWORD", "CONTACT NUMBER", "ADDRESS");
+	    output += retrieveAllUser(userList);
+	    System.out.println(output);
 	}
 	public static void deleteUser(ArrayList<User> userList, String email) {
 	    boolean found = false;
@@ -125,6 +139,25 @@ public class C206_CaseStudy {
 	        System.out.println("User with the specified email not found.");
 	    }
 	}
+	
+	public static void addUser(ArrayList<User> userList, User u) {
+	    String trimmedName = u.getName().trim();
+	    if (trimmedName.isEmpty() || u.getAddress().isEmpty()) {
+	        System.out.println("INVALID USER");
+	        return;
+	    }
+
+	    for (User user : userList) {
+	        if (user.getName().equalsIgnoreCase(trimmedName)) {
+	            System.out.println("INVALID USER");
+	            return;
+	        }
+	    }
+
+	    userList.add(u);
+	}
+	
+	
 		
 
 }
