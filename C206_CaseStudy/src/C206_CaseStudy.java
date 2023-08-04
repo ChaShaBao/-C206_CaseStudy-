@@ -25,15 +25,7 @@ public class C206_CaseStudy {
     	if (choice == 1) {
     		
     		C206_CaseStudy.menuUser();
-    		int a=Helper.readInt("Enter an option > ");
-    		//if (a == 1) {
-    		  //  User u = inputUser(userList);
-    		   // if (u.getName().trim().isEmpty()) {
-    		     //   System.out.println("INVALID USERNAME");
-    		    //} else {
-    		      //  C206_CaseStudy.addUser(userList, u);
-    		        //System.out.println("*** User added ***");
-    		    //}
+    		int a=Helper.readInt("Enter an option > ");  		
     		if (a == 1) {
     		    User u = inputUser(userList);
     		    int status = C206_CaseStudy.addUser(userList, u);
@@ -151,23 +143,7 @@ public class C206_CaseStudy {
 	    }
 	}
 	
-	//public static void addUser(ArrayList<User> userList, User u) {
-	    //String trimmedName = u.getName().trim();
-	    //String trimmedEmail=u.getEmail().trim();
-	    //if (trimmedName.isEmpty() || u.getAddress().isEmpty() || trimmedEmail.contains("@")) {
-	     //   System.out.println("INVALID USER");
-	      //  return;
-	    //}
-
-	    //for (User user : userList) {
-	      //  if (user.getName().equalsIgnoreCase(trimmedName)) {
-	        //    System.out.println("INVALID USER");
-	          //  return;
-	        //}
-	    //}
-
-	    //userList.add(u);
-	//}
+	
 	public static final int ADD_SUCCESS = 0;
 	public static final int ADD_INVALID_USER = 1;
 	public static final int ADD_INVALID_EMAIL = 2;
