@@ -27,10 +27,15 @@ public class Quote {
     public String getAdditionalInfo() {
         return additionalInfo;
     }
+    public void setQuoteid(int quoteId2) {
+        this.quoteId = quoteId2;
+    }
     public void setPrice(double price) {
         this.price = price;
     }
     public void setAdditionalInfo(String additionalInfo) {
         this.additionalInfo = additionalInfo;
     }
+	
+	
 }

@@ -1,20 +1,22 @@
 
 public class User {
-    String name;
+     String name;
     String email;
     String password;
-    String contactNumber;
+    int contactNumber;
     String address;
 
-    public User(String name, String email, String password, String contactNumber, String address) {
+    public User(String name, String email, String password, int contactNumber, String address) {
         this.name = name;
         this.email = email;
         this.password = password;
         this.contactNumber = contactNumber;
         this.address = address;
     }
+	
 
-    public String getName() {
+
+	public String getName() {
         return name;
     }
 
@@ -26,7 +28,7 @@ public class User {
         return password;
     }
 
-    public String getContactNumber() {
+    public int getContactNumber() {
         return contactNumber;
     }
 
@@ -42,11 +44,13 @@ public class User {
         this.password = password;
     }
 
-    public void setContactNumber(String contactNumber) {
+    public void setContactNumber(int contactNumber) {
         this.contactNumber = contactNumber;
     }
 
     public void setAddress(String address) {
         this.address = address;
     }
+
+  
 }

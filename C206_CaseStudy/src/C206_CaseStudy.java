@@ -26,14 +26,25 @@ public class C206_CaseStudy {
     		
     		C206_CaseStudy.menuUser();
     		int a=Helper.readInt("Enter an option > ");
+    		//if (a == 1) {
+    		  //  User u = inputUser(userList);
+    		   // if (u.getName().trim().isEmpty()) {
+    		     //   System.out.println("INVALID USERNAME");
+    		    //} else {
+    		      //  C206_CaseStudy.addUser(userList, u);
+    		        //System.out.println("*** User added ***");
+    		    //}
     		if (a == 1) {
     		    User u = inputUser(userList);
-    		    if (u.getName().trim().isEmpty()) {
-    		        System.out.println("INVALID USERNAME");
-    		    } else {
-    		        C206_CaseStudy.addUser(userList, u);
+    		    int status = C206_CaseStudy.addUser(userList, u);
+    		    if (status == C206_CaseStudy.ADD_SUCCESS) {
     		        System.out.println("*** User added ***");
+    		    } else if (status == C206_CaseStudy.ADD_INVALID_USER) {
+    		        System.out.println("INVALID USER: Invalid name format or username already exists.");
+    		    } else if (status == C206_CaseStudy.ADD_INVALID_EMAIL) {
+    		        System.out.println("INVALID USER: Invalid email format.");
     		    }
+    		
     		}else if (a == 2) {
     			C206_CaseStudy.viewAllUser(userList);
     		}else if (a==3) {
@@ -140,23 +151,48 @@ public class C206_CaseStudy {
 	    }
 	}
 	
-	public static void addUser(ArrayList<User> userList, User u) {
+	//public static void addUser(ArrayList<User> userList, User u) {
+	    //String trimmedName = u.getName().trim();
+	    //String trimmedEmail=u.getEmail().trim();
+	    //if (trimmedName.isEmpty() || u.getAddress().isEmpty() || trimmedEmail.contains("@")) {
+	     //   System.out.println("INVALID USER");
+	      //  return;
+	    //}
+
+	    //for (User user : userList) {
+	      //  if (user.getName().equalsIgnoreCase(trimmedName)) {
+	        //    System.out.println("INVALID USER");
+	          //  return;
+	        //}
+	    //}
+
+	    //userList.add(u);
+	//}
+	public static final int ADD_SUCCESS = 0;
+	public static final int ADD_INVALID_USER = 1;
+	public static final int ADD_INVALID_EMAIL = 2;
+
+	public static int addUser(ArrayList<User> userList, User u) {
 	    String trimmedName = u.getName().trim();
-	    if (trimmedName.isEmpty() || u.getAddress().isEmpty()) {
-	        System.out.println("INVALID USER");
-	        return;
+	    String trimmedEmail = u.getEmail().trim();
+
+	    if (trimmedName.isEmpty()) {
+	        return ADD_INVALID_USER;
+	    }
+
+	    if (trimmedEmail.isEmpty() || !trimmedEmail.contains("@")) {
+	        return ADD_INVALID_EMAIL;
 	    }
 
 	    for (User user : userList) {
 	        if (user.getName().equalsIgnoreCase(trimmedName)) {
-	            System.out.println("INVALID USER");
-	            return;
+	            return ADD_INVALID_USER;
 	        }
 	    }
 
 	    userList.add(u);
+	    return ADD_SUCCESS;
 	}
-	
 	
 		
 

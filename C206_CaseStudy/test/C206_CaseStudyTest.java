@@ -10,7 +10,7 @@ import java.util.ArrayList;
 public class C206_CaseStudyTest {
 	
 	
-	private ArrayList<User> userList;
+	ArrayList<User> userList=new ArrayList<>();
 
 	@Before
 	public void setUp() throws Exception {

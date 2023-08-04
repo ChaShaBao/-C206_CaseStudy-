@@ -1,32 +1,33 @@
 
 public class ServiceProvider {
 	
-     String name;
+     String ServiceName;
      String email;
      String contactNumber;
      String businessAddress;
+    
 
     public ServiceProvider(String name, String email, String contactNumber, String businessAddress) {
-        this.name = name;
+        this.ServiceName = name;
         this.email = email;
         this.contactNumber = contactNumber;
         this.businessAddress = businessAddress;   
     }
     public String getName() {
-        return name;
+        return ServiceName;
     }
 
     public String getEmail() {
         return email;
     }
-    public String getContact() {
+    public String getContactNumber() {
     	return contactNumber;
     }
-    public String getBusiness() {
+    public String getBusinessAddress() {
     	return businessAddress;
     }
     public void setName(String name) {
-        this.name = name;
+        this.ServiceName = name;
     }
 
     public void setEmail(String email) {
