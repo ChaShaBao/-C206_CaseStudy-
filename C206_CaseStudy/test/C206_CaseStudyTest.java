@@ -2,7 +2,9 @@ import static org.junit.Assert.*;
 
 
 
-import org.junit.After;
+
+
+
 import org.junit.Before;
 import org.junit.Test;
 import java.util.ArrayList;
@@ -11,19 +13,16 @@ public class C206_CaseStudyTest {
 	
 	
 	ArrayList<User> userList=new ArrayList<>();
-
+	
 	@Before
 	public void setUp() throws Exception {
-		userList = new ArrayList<User>();
-        userList.add(new User("Tom", "Tom@myrp.edu.sg", "123", 92012910, "Jurong West"));
-        userList.add(new User("Jerry", "Jerry@myrp.edu.sg", "123", 92092910, "Jurong East"));
+	userList = new ArrayList<User>();
+    userList.add(new User("Tom", "Tom@myrp.edu.sg", "123", 92012910, "Jurong West"));
+     userList.add(new User("Jerry", "Jerry@myrp.edu.sg", "123", 92092910, "Jurong East"));
+        
 	}
 	
-
-	@After
-	public void tearDown() throws Exception {
-		userList.clear();
-	}
+	
 
 	 @Test
 	    public void testAddUser() {
@@ -102,6 +101,7 @@ public class C206_CaseStudyTest {
 	        assertEquals(C206_CaseStudy.ADD_SUCCESS, result);
 	        assertTrue(userList.contains(testUser));
 	    }
+	  
 	   
 	 
 
