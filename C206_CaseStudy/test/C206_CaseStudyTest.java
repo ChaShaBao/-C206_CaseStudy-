@@ -39,18 +39,25 @@ public class C206_CaseStudyTest {
 	        assertEquals("Checking if duplicate user was added", 3, userList.size());
 	    }
 	 @Test
-	    public void testDeleteUser() {
-	        // Test deleting an existing user
-	        String emailToDelete = "Jerry@myrp.edu.sg";
-	        C206_CaseStudy.deleteUser(userList, emailToDelete);
-	        assertEquals("Checking if the user was deleted", 1, userList.size());
-	        assertFalse("Checking if the deleted user is no longer in the list", userList.contains(new User("Jerry", "Jerry@myrp.edu.sg", "123", 92092910, "Jurong East")));
+	 public void testDeleteUser() {
+		    // Original list contains a user named "Jerry"
+		    ArrayList<User> userList = new ArrayList<>();
+		    userList.add(new User("Jerry", "Jerry@myrp.edu.sg", "123", 92092910, "Jurong East"));
 
-	        // Test deleting a non-existing user
-	        String nonExistingEmail = "nonexisting@myrp.edu.sg";
-	        C206_CaseStudy.deleteUser(userList, nonExistingEmail);
-	        assertEquals("Checking if the list remains unchanged", 1, userList.size());
-	    }
+		    // Test deleting an existing user
+		    String nameToDelete = "Jerry"; // Name of the user to delete
+		    C206_CaseStudy.deleteUser(userList, nameToDelete); // Call the deleteUserByName method
+		    assertEquals("Checking if the user was deleted", 0, userList.size()); // Expecting list size to be 0 after deletion
+		    assertFalse("Checking if the deleted user is no longer in the list", userList.contains(new User("Jerry", "Jerry@myrp.edu.sg", "123", 92092910, "Jurong East")));
+
+		    // Add a new user to the list for the next test
+		    userList.add(new User("Alice", "alice@myrp.edu.sg", "456", 98765432, "Bukit Timah"));
+
+		    // Test deleting a non-existing user
+		    String nonExistingName = "Bob"; // Non-existing name
+		    C206_CaseStudy.deleteUser(userList, nonExistingName); // Call the deleteUserByName method
+		    assertEquals("Checking if the list remains unchanged", 1, userList.size()); // Expecting list size to remain 1
+		}
 	 @Test
 	 public void testAddUserWithEmailValidation() {
 	     // Test adding a new user with a valid email format
@@ -64,6 +71,19 @@ public class C206_CaseStudyTest {
 	     C206_CaseStudy.addUser(userList, newUserInvalidEmail);
 	     assertEquals("Checking if the user with invalid email was rejected", 3, userList.size());
 	 }
+	 
+	 @Test
+	    public void testValidContactNumber() {
+	       User ValidContactNumber = new User("John", "john@example.com", "123", 12345678, "Somewhere");
+	        C206_CaseStudy.addUser(userList, ValidContactNumber);
+	        assertEquals("Checking if the contact number is valid", 3,userList.size());
+	        assertEquals("Checking if the contact number was added correctly", ValidContactNumber, userList.get(2));
+	        User InvalidContactNumber = new User("John", "john@example.com", "123", 1234567, "Somewhere");
+	        C206_CaseStudy.addUser(userList, InvalidContactNumber);
+	        assertEquals("Checking if the user with invalid contact number was rejected", 3, userList.size());
+	    }
+
+	   
 	 
 
 }

@@ -40,8 +40,8 @@ public class C206_CaseStudy {
     		}else if (a == 2) {
     			C206_CaseStudy.viewAllUser(userList);
     		}else if (a==3) {
-    			String emailToDelete = Helper.readString("Enter the email of the user to delete: ");
-    		    C206_CaseStudy.deleteUser(userList, emailToDelete);
+    			String NameToDelete = Helper.readString("Enter the name of the user to delete: ");
+    		    C206_CaseStudy.deleteUser(userList, NameToDelete);
     			
     		}else {
     			System.out.println("INVALID OPTION");
@@ -126,10 +126,10 @@ public class C206_CaseStudy {
 	    output += retrieveAllUser(userList);
 	    System.out.println(output);
 	}
-	public static void deleteUser(ArrayList<User> userList, String email) {
+	public static void deleteUser(ArrayList<User> userList, String name) {
 	    boolean found = false;
 	    for (User user : userList) {
-	        if (user.getEmail().equalsIgnoreCase(email)) {
+	        if (user.getName().equalsIgnoreCase(name)) {
 	            userList.remove(user);
 	            found = true;
 	            break;
@@ -139,7 +139,7 @@ public class C206_CaseStudy {
 	    if (found) {
 	        System.out.println("*** User deleted ***");
 	    } else {
-	        System.out.println("User with the specified email not found.");
+	        System.out.println("User with the specified name not found.");
 	    }
 	}
 	
