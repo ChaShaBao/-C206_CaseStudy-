@@ -48,7 +48,8 @@ public class C206_CaseStudyTest {
 		    String nameToDelete = "Jerry"; // Name of the user to delete
 		    C206_CaseStudy.deleteUser(userList, nameToDelete); // Call the deleteUserByName method
 		    assertEquals("Checking if the user was deleted", 0, userList.size()); // Expecting list size to be 0 after deletion
-		    assertFalse("Checking if the deleted user is no longer in the list", userList.contains(new User("Jerry", "Jerry@myrp.edu.sg", "123", 92092910, "Jurong East")));
+		    assertFalse("Checking if the deleted user is no longer in the list", 
+		    		userList.contains(new User("Jerry", "Jerry@myrp.edu.sg", "123", 92092910, "Jurong East")));
 
 		    // Add a new user to the list for the next test
 		    userList.add(new User("Alice", "alice@myrp.edu.sg", "456", 98765432, "Bukit Timah"));
@@ -60,13 +61,12 @@ public class C206_CaseStudyTest {
 		}
 	 @Test
 	 public void testAddUserWithEmailValidation() {
-	     // Test adding a new user with a valid email format
+	    
 	     User newUserValidEmail = new User("John", "john@example.com", "123", 98765432, "Somewhere");
 	     C206_CaseStudy.addUser(userList, newUserValidEmail);
 	     assertEquals("Checking if the user was added", 3, userList.size());
 	     assertEquals("Checking if the user was added correctly", newUserValidEmail, userList.get(2));
-
-	     // Test adding a new user with an invalid email format (missing @ symbol)
+	     
 	     User newUserInvalidEmail = new User("Jane", "invalid-email.com", "456", 87654321, "Nowhere");
 	     C206_CaseStudy.addUser(userList, newUserInvalidEmail);
 	     assertEquals("Checking if the user with invalid email was rejected", 3, userList.size());
@@ -82,7 +82,26 @@ public class C206_CaseStudyTest {
 	        C206_CaseStudy.addUser(userList, InvalidContactNumber);
 	        assertEquals("Checking if the user with invalid contact number was rejected", 3, userList.size());
 	    }
+	  @Test
+	    public void testAddUser_DuplicateUsername() {
+	        User existingUser = new User("ExistingUser", "existing@example.com", "password", 87654321, "Existing Address");
+	        userList.add(existingUser);
 
+	        User duplicateUser = new User("ExistingUser", "duplicate@example.com", "password", 98765432, "Duplicate Address");
+	        int result = C206_CaseStudy.addUser(userList, duplicateUser);
+
+	        assertEquals(C206_CaseStudy.ADD_INVALID_USER, result);
+	        assertFalse(userList.contains(duplicateUser));
+	    }
+	  
+	  @Test
+	    public void testAddUser_ValidUsername() {
+	        User testUser = new User("ValidUsername", "valid@example.com", "password", 12345678, "Test Address");
+	        int result = C206_CaseStudy.addUser(userList, testUser);
+
+	        assertEquals(C206_CaseStudy.ADD_SUCCESS, result);
+	        assertTrue(userList.contains(testUser));
+	    }
 	   
 	 
 
