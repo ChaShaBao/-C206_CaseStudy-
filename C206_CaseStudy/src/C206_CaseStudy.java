@@ -1,5 +1,7 @@
 import java.util.ArrayList;
 public class C206_CaseStudy {
+	private static final int OPTION_QUIT = 7;
+
 	public static void main(String[] args) {
  	ArrayList<User> userList = new ArrayList<User>();
     ArrayList<ServiceProvider> serviceProvidersList = new ArrayList<ServiceProvider>();
@@ -18,7 +20,7 @@ public class C206_CaseStudy {
     
     int choice = 0;
    
-    while (choice!=7) {
+    while (choice!=OPTION_QUIT) {
     	
     	C206_CaseStudy.menu();
     	choice = Helper.readInt("Enter an option > ");
@@ -42,14 +44,15 @@ public class C206_CaseStudy {
     		}else if (a==3) {
     			String NameToDelete = Helper.readString("Enter the name of the user to delete: ");
     		    C206_CaseStudy.deleteUser(userList, NameToDelete);
-    			
     		}else {
     			System.out.println("INVALID OPTION");
     		}
     	
+    	
+	}else if (choice==OPTION_QUIT) {
+		System.out.println("Bye!");
+    		}
     	}
-    }
-	
 	}
 	public static void menu() {
 		C206_CaseStudy.setHeader("Renovation Portal");
