@@ -1,6 +1,6 @@
 
 public class User {
-     String name;
+      String name;
     String email;
     String password;
     int contactNumber;
@@ -16,7 +16,7 @@ public class User {
 	
 
 
-	public String getName() {
+	public  String getName() {
         return name;
     }
 
