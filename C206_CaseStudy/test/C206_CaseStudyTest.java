@@ -14,6 +14,8 @@ public class C206_CaseStudyTest {
 	
 	ArrayList<User> userList=new ArrayList<>();
 	
+	
+	
 	@Before
 	public void setUp() throws Exception {
 	userList = new ArrayList<User>();
@@ -39,14 +41,14 @@ public class C206_CaseStudyTest {
 	    }
 	 @Test
 	 public void testDeleteUser() {
-		    // Original list contains a user named "Jerry"
+		    
 		    ArrayList<User> userList = new ArrayList<>();
 		    userList.add(new User("Jerry", "Jerry@myrp.edu.sg", "123", 92092910, "Jurong East"));
 
 		    // Test deleting an existing user
 		    String nameToDelete = "Jerry"; // Name of the user to delete
-		    C206_CaseStudy.deleteUser(userList, nameToDelete); // Call the deleteUserByName method
-		    assertEquals("Checking if the user was deleted", 0, userList.size()); // Expecting list size to be 0 after deletion
+		    C206_CaseStudy.deleteUser(userList, nameToDelete); 
+		    assertEquals("Checking if the user was deleted", 0, userList.size()); 
 		    assertFalse("Checking if the deleted user is no longer in the list", 
 		    		userList.contains(new User("Jerry", "Jerry@myrp.edu.sg", "123", 92092910, "Jurong East")));
 
@@ -54,9 +56,9 @@ public class C206_CaseStudyTest {
 		    userList.add(new User("Alice", "alice@myrp.edu.sg", "456", 98765432, "Bukit Timah"));
 
 		    // Test deleting a non-existing user
-		    String nonExistingName = "Bob"; // Non-existing name
-		    C206_CaseStudy.deleteUser(userList, nonExistingName); // Call the deleteUserByName method
-		    assertEquals("Checking if the list remains unchanged", 1, userList.size()); // Expecting list size to remain 1
+		    String nonExistingName = "Bob"; 
+		    C206_CaseStudy.deleteUser(userList, nonExistingName); 
+		    assertEquals("Checking if the list remains unchanged", 1, userList.size());
 		}
 	 @Test
 	 public void testAddUserWithEmailValidation() {
@@ -101,8 +103,50 @@ public class C206_CaseStudyTest {
 	        assertEquals(C206_CaseStudy.ADD_SUCCESS, result);
 	        assertTrue(userList.contains(testUser));
 	    }
+	  @Test
+	  public void testRetrieveAllUser() {
+	      // Test case 1: Check if the list is empty
+	      userList.clear(); // Make sure the list is empty
+	      String testOutput = "";
+	      
+	      String allUser = C206_CaseStudy.retrieveAllUser(userList);
+	      
+	      // Test if the output is empty when userList is empty
+	      assertEquals("Test nothing is displayed for empty userList", testOutput, allUser);
+	      
+	      // Test case 2: Check if the list is not empty
+	      userList.clear(); // Clear the list
+	      
+	      // Add user details to the userList
+	      userList.add(new User("Tom", "Tom@myrp.edu.sg", "123", 92012910, "Jurong West"));
+	      userList.add(new User("Jerry", "Jerry@myrp.edu.sg", "123", 92092910, "Jurong East"));
+	      
+	      testOutput = ""; // Reset testOutput
+	      
+	      // Add user details to the testOutput variable
+	      testOutput += String.format("%-10s %-20s %-10s %-15d %-20s\n", "Tom", "Tom@myrp.edu.sg", "123", 92012910, "Jurong West");
+	      testOutput += String.format("%-10s %-20s %-10s %-15d %-20s\n", "Jerry", "Jerry@myrp.edu.sg", "123", 92092910, "Jurong East");
+	      
+	      allUser = C206_CaseStudy.retrieveAllUser(userList);
+	      
+	      // Test that the details are displayed correctly when userList is not empty
+	      assertEquals("Test that the display is correct for non-empty userList", testOutput, allUser);
+	  }
+
+
+	
+} 
+
+
+
+
+
+
+
+
+	
 	  
 	   
 	 
 
-}
+
