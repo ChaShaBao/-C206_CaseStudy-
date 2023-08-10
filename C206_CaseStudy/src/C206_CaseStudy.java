@@ -8,6 +8,8 @@ public class C206_CaseStudy {
     ArrayList<Request> requestList = new ArrayList<Request>();
     ArrayList<Appointment> appointmentList = new ArrayList<Appointment>();
     
+    //Testing push for Josh
+    
     //testForUser 
     userList.add(new User("Tom", "Tom@myrp.edu.sg","123",92012910,"Jurong West"));
 	userList.add(new User("Jerry", "Jerry@myrp.edu.sg","123",92092910,"Jurong East"));
