@@ -1,6 +1,6 @@
 
 public class User {
-     String name;
+    String name;
     String email;
     String password;
     int contactNumber;
@@ -14,8 +14,6 @@ public class User {
         this.address = address;
     }
 	
-
-
 	public String getName() {
         return name;
     }

@@ -9,8 +9,7 @@ import java.util.ArrayList;
 
 public class C206_CaseStudyTest {
 	
-	
-	ArrayList<User> userList=new ArrayList<>();
+	private ArrayList<User> userList;
 
 	@Before
 	public void setUp() throws Exception {

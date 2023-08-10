@@ -14,8 +14,6 @@ public class C206_CaseStudy {
 	userList.add(new User("Alex", "Alex@gmail.com","123",92092990, "Yishun"));
 	userList.add(new User("Jane","Jane@gmail.com","123",92092910 ,"Woodlands"));
 
-    
-    
     int choice = 0;
    
     while (choice!=7) {
@@ -58,7 +56,7 @@ public class C206_CaseStudy {
 		System.out.println("3. Service");
 		System.out.println("4. Quote");
 		System.out.println("5. Request");
-		System.out.println("6. appointment");
+		System.out.println("6. Appointment");
 		System.out.println("7. Quit");
 		Helper.line(80, "-");
 
@@ -68,12 +66,14 @@ public class C206_CaseStudy {
 		System.out.println(header);
 		Helper.line(80, "-");
 	}
+	
 	public static void menuUser() {
 		C206_CaseStudy.setHeader("Users");
 		System.out.println("1. Add User");
 		System.out.println("2. View all User");
 		System.out.println("3. Delete User");
 	}
+	
 	public static User inputUser(ArrayList<User> userList) {
 	    String name = "";
 	    while (true) {
