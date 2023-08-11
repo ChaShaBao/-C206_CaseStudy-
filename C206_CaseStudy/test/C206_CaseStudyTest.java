@@ -2,7 +2,12 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 import java.util.ArrayList;
-
+import static org.junit.Assert.*;
+import org.junit.Before;
+import org.junit.Test;
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+import java.util.ArrayList;
 public class C206_CaseStudyTest {
 	
 	ArrayList<User> userList=new ArrayList<>();
@@ -28,27 +33,7 @@ public class C206_CaseStudyTest {
 	        C206_CaseStudy.addUser(userList, duplicateUser);
 	        assertEquals("Checking if duplicate user was added", 3, userList.size());
 	    }
-	 @Test
-	 public void testDeleteUser() {
-		    
-		    ArrayList<User> userList = new ArrayList<>();
-		    userList.add(new User("Jerry", "Jerry@myrp.edu.sg", "123", 92092910, "Jurong East"));
-
-		    // Test deleting an existing user
-		    String nameToDelete = "Jerry"; // Name of the user to delete
-		    C206_CaseStudy.deleteUser(userList, nameToDelete); 
-		    assertEquals("Checking if the user was deleted", 0, userList.size()); 
-		    assertFalse("Checking if the deleted user is no longer in the list", 
-		    		userList.contains(new User("Jerry", "Jerry@myrp.edu.sg", "123", 92092910, "Jurong East")));
-
-		    // Add a new user to the list for the next test
-		    userList.add(new User("Alice", "alice@myrp.edu.sg", "456", 98765432, "Bukit Timah"));
-
-		    // Test deleting a non-existing user
-		    String nonExistingName = "Bob"; 
-		    C206_CaseStudy.deleteUser(userList, nonExistingName); 
-		    assertEquals("Checking if the list remains unchanged", 1, userList.size());
-		}
+	 
 	 @Test
 	 public void testAddUserWithEmailValidation() {
 	    
@@ -156,6 +141,34 @@ public class C206_CaseStudyTest {
 	    public void testCheckEmail_InvalidEmail() {
 	        assertFalse(C206_CaseStudy.checkEmail("invalid-email"));
 	    }
+<<<<<<< HEAD
+=======
+	    @Test
+	    public void testDeleteUser() {
+	        ArrayList<User> userList = new ArrayList<>();
+	        userList.add(new User("Jerry", "Jerry@myrp.edu.sg", "123", 92092910, "Jurong East"));
+	        String nameToDelete = "Jerry";
+	        simulateUserInput("yes\n");
+	        C206_CaseStudy.deleteUser(userList, nameToDelete); 
+	        assertEquals("Checking if the user was deleted", 0, userList.size()); 
+	        assertFalse("Checking if the deleted user is no longer in the list", 
+	        userList.contains(new User("Jerry", "Jerry@myrp.edu.sg", "123", 92092910, "Jurong East")));
+	        userList.add(new User("Alice", "alice@myrp.edu.sg", "456", 98765432, "Bukit Timah"));
+	        String nonExistingName = "Bob"; 
+	        C206_CaseStudy.deleteUser(userList, nonExistingName); 
+	        assertEquals("Checking if the list remains unchanged", 1, userList.size());
+	        
+	        
+	    }
+	    public void simulateUserInput(String input) {
+	        InputStream in = new ByteArrayInputStream(input.getBytes());
+	        System.setIn(in);
+	    }
+	
+
+	
+} 
+>>>>>>> branch 'master' of https://github.com/ChaShaBao/-C206_CaseStudy-.git
 
 	    @Test
 	    public void testCheckNumber_ValidNumber() {
