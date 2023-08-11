@@ -1,9 +1,13 @@
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class Appointment {
      int appointmentId;
      Service service;
      ServiceProvider serviceProvider;
      User user;
-     String date;
+     Date date;
      String additionalDetails;
 
     public Appointment(int appointmentId, Service service, ServiceProvider serviceProvider, User user, String date, String additionalDetails) {
@@ -11,7 +15,7 @@ public class Appointment {
         this.service = service;
         this.serviceProvider = serviceProvider;
         this.user = user;
-        this.date = date;
+        this.date = parseDate(date);
         this.additionalDetails = additionalDetails;
     }
 
@@ -25,18 +29,28 @@ public class Appointment {
         return serviceProvider;
     }
     public User getUser() {
-    	return user;
+      return user;
     }
-    public String getDate() {
-    	return date;
+    public Date getDate() {
+      return date;
     }
     public String getAdditionaldetails() {
-    	return additionalDetails;
+      return additionalDetails;
     }
-    public void setDate(String date) {
+    public void setDate(Date date) {
         this.date = date;
     }
+    
     public void setAdditionaldetils(String additionalDetails) {
         this.additionalDetails = additionalDetails;
+    }
+    private Date parseDate(String dateStr) {
+        try {
+            SimpleDateFormat inputFormat = new SimpleDateFormat("dd-MM-yyyy");
+            return inputFormat.parse(dateStr);
+        } catch (ParseException e) {
+            e.printStackTrace(); // Handle the exception appropriately
+            return null;
+        }
     }
 }

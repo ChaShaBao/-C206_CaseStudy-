@@ -102,31 +102,17 @@ public class C206_CaseStudyTest {
 	    }
 	  @Test
 	  public void testRetrieveAllUser() {
-	      // Test case 1: Check if the list is empty
-	      userList.clear(); // Make sure the list is empty
-	      String testOutput = "";
-	      
+	      userList.clear(); 
+	      String testOutput = "";	      
 	      String allUser = C206_CaseStudy.retrieveAllUser(userList);
-	      
-	      // Test if the output is empty when userList is empty
-	      assertEquals("Test nothing is displayed for empty userList", testOutput, allUser);
-	      
-	      // Test case 2: Check if the list is not empty
-	      userList.clear(); // Clear the list
-	      
-	      // Add user details to the userList
+	      assertEquals("Test nothing is displayed for empty userList", testOutput, allUser);	      
+	      userList.clear(); 
 	      userList.add(new User("Tom", "Tom@myrp.edu.sg", "123", 92012910, "Jurong West"));
-	      userList.add(new User("Jerry", "Jerry@myrp.edu.sg", "123", 92092910, "Jurong East"));
-	      
-	      testOutput = ""; // Reset testOutput
-	      
-	      // Add user details to the testOutput variable
+	      userList.add(new User("Jerry", "Jerry@myrp.edu.sg", "123", 92092910, "Jurong East"));	      
+	      testOutput = "";
 	      testOutput += String.format("%-10s %-20s %-10s %-15d %-20s\n", "Tom", "Tom@myrp.edu.sg", "123", 92012910, "Jurong West");
-	      testOutput += String.format("%-10s %-20s %-10s %-15d %-20s\n", "Jerry", "Jerry@myrp.edu.sg", "123", 92092910, "Jurong East");
-	      
-	      allUser = C206_CaseStudy.retrieveAllUser(userList);
-	      
-	      // Test that the details are displayed correctly when userList is not empty
+	      testOutput += String.format("%-10s %-20s %-10s %-15d %-20s\n", "Jerry", "Jerry@myrp.edu.sg", "123", 92092910, "Jurong East");	      
+	      allUser = C206_CaseStudy.retrieveAllUser(userList);     
 	      assertEquals("Test that the display is correct for non-empty userList", testOutput, allUser);
 	  }
 
