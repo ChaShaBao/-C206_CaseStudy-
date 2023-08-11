@@ -263,10 +263,9 @@ public class C206_CaseStudy {
 				} else {
 					System.out.println("Invalid Choice" );
 				}
-				
 			}
 		}
-		if (rmv = true) {
+		if (rmv) {
 			System.out.println("Service Provider Removed Successfully");
 		} else {
 			System.out.println("Service Provider Not Found");
@@ -309,21 +308,14 @@ public class C206_CaseStudy {
 	        System.out.println("Password must be at least 8 characters long");
 	        return false;
 	    }
-
-	   
 	    if (!password.matches(".*[A-Z].*")) {
 	        System.out.println("Password must contain at least one uppercase letter");
 	        return false;
 	    }
-
-	   
 	    if (!password.matches(".*[a-z].*")) {
 	        System.out.println("Password must contain at least one lowercase letter");
 	        return false;
 	    }
-
-
-	    
 	    return true;
 	}
 }

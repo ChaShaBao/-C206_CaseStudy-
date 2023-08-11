@@ -15,8 +15,6 @@ public class C206_CaseStudyTest {
         
 	}
 	
-	
-
 	 @Test
 	    public void testAddUser() {
 	        // Test adding a new user
@@ -127,32 +125,74 @@ public class C206_CaseStudyTest {
 	    }
 
 	    @Test
-	    public void testCheckEmail_ValidEmail() {
-	        assertTrue(C206_CaseStudy.checkEmail("user@example.com"));
-	    }
-
-	    @Test
 	    public void testCheckEmail_EmptyEmail() {
 	        assertFalse(C206_CaseStudy.checkEmail(""));
 	    }
 
+//-------------------------------------------------------------------------------------------------
+// SP
+	    @Test
+	    public void testCheckSPName_ExistingName() {
+	        ArrayList<ServiceProvider> spList = new ArrayList<>();
+	        spList.add(new ServiceProvider("Existing SP", "existing@example.com", 12345678, "Some Address"));
+
+	        assertFalse(C206_CaseStudy.checkSPName(spList, "Existing SP"));
+	    }
+
+	    @Test
+	    public void testCheckSPName_NewName() {
+	        ArrayList<ServiceProvider> spList = new ArrayList<>();
+	        spList.add(new ServiceProvider("Existing SP", "existing@example.com", 12345678, "Some Address"));
+
+	        assertTrue(C206_CaseStudy.checkSPName(spList, "New SP"));
+	    }
+
+	    @Test
+	    public void testCheckEmail_ValidEmail() {
+	        assertTrue(C206_CaseStudy.checkEmail("test@example.com"));
+	    }
+
 	    @Test
 	    public void testCheckEmail_InvalidEmail() {
-	        assertFalse(C206_CaseStudy.checkEmail("invalidemail"));
+	        assertFalse(C206_CaseStudy.checkEmail("invalid-email"));
 	    }
-	
-} 
 
+	    @Test
+	    public void testCheckNumber_ValidNumber() {
+	        assertTrue(C206_CaseStudy.checkNumber(12345678));
+	    }
 
+	    @Test
+	    public void testCheckNumber_InvalidNumber() {
+	        assertFalse(C206_CaseStudy.checkNumber(123));
+	    }
 
+	    @Test
+	    public void testSPAdd_AddServiceProvider() {
+	        ArrayList<ServiceProvider> spList = new ArrayList<>();
+	        C206_CaseStudy.SPAdd(spList);
 
+	        assertEquals(1, spList.size());
+	    }
 
+	    @Test
+	    public void testSPView_ViewServiceProviders() {
+	        ArrayList<ServiceProvider> spList = new ArrayList<>();
+	        spList.add(new ServiceProvider("SP 1", "sp1@example.com", 12345678, "Address 1"));
+	        spList.add(new ServiceProvider("SP 2", "sp2@example.com", 87654321, "Address 2"));
 
+	        C206_CaseStudy.SPView(spList);
+	        // Since the SPView method does not return anything, we can't directly test the output.
+	        // You should manually inspect the console output to verify correctness.
+	    }
 
+	    @Test
+	    public void testSPDel_DeleteServiceProvider() {
+	        ArrayList<ServiceProvider> spList = new ArrayList<>();
+	        spList.add(new ServiceProvider("SP to delete", "delete@example.com", 98765432, "Delete Address"));
 
-	
-	  
-	   
-	 
+	        C206_CaseStudy.SPDel(spList);
 
-
+	        assertEquals(0, spList.size());
+	    }
+	}
