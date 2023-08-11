@@ -96,31 +96,25 @@ public class C206_CaseStudy {
 	    String name = "";
 	    while (true) {
 	        name = Helper.readString("Enter Username > ");
-	        if (name.trim().isEmpty()) {
-	            System.out.println("INVALID USERNAME: Username cannot be empty.");
-	        } else {
-	            boolean isDuplicate = false;
-	            for (User user : userList) {
-	                if (user.getName().equalsIgnoreCase(name.trim())) {
-	                    isDuplicate = true;
-	                    break;
-	                }
-	            }
-
-	            if (isDuplicate) {
-	                System.out.println("INVALID USERNAME: Username already exists.");
-	            } else {
-	                break;
-	            }
+	        
+	        
+	        while (!checkUserName(userList, name)) {
+	        	name = Helper.readString("Enter Username > ");
 	        }
-	    }
+	    
 
 	    String email = Helper.readString("Enter Email > ");
+	    while (!checkEmail(email)) {
+        	email = Helper.readString("Enter Email > ");
+        }
+	    
+	    
+	    
 	    String password = Helper.readString("Enter Password > ");
 	    int contactNumber = Helper.readInt("Enter Contact Number > ");
 	    String address = Helper.readString("Enter Address > ");
-	    User u = new User(name, email, password, contactNumber, address);
-	    return u;
+	    userList.add(new User(name, email, password, contactNumber, address));
+	    }
 	}
 	
 	
@@ -189,6 +183,25 @@ public class C206_CaseStudy {
 	    return ADD_SUCCESS;
 	}
 	
+	public static boolean checkUserName(ArrayList<User> userList, String name) {
+		for (User i : userList) {
+			if (name.trim().isEmpty()) {
+				System.out.println("Name Cannot Be Empty");
+				return false;
+			} else if (i.getName().equalsIgnoreCase(name)) {
+				System.out.println("Name Already Exist");
+				return false;
+			}
+		}
+		return true;
+	}
+	
+
+	
+//-------------------------------------------------------------------------------------------------------------------------------
+// SP
+	
+	
 	public static void SPMenu(ArrayList<ServiceProvider> spList) {
 		Helper.line(30, "-");
 		System.out.println("Service Provider");
@@ -203,7 +216,7 @@ public class C206_CaseStudy {
 		}
 		String SPEmail = Helper.readString("Enter Email > ");
 		while (!checkEmail(SPEmail)) {
-			System.out.println("Invalid Email");
+			
 			SPEmail = Helper.readString("Enter Email > ");
 		}
 		int SPNo = Helper.readInt("Enter Contact Number > ");
@@ -259,7 +272,11 @@ public class C206_CaseStudy {
 	}
 	
 	public static boolean checkEmail(String email) {
-		if (email.trim().isEmpty() || !email.trim().contains("@")) {
+		if (email.trim().isEmpty()) {
+			System.out.println("Email cannot be empty");
+			return false;
+		} else if (!email.trim().contains("@")) {
+			System.out.println("Invalid Email");
 			return false;
 		}
 		return true;
@@ -269,5 +286,7 @@ public class C206_CaseStudy {
 		String numberString = Integer.toString(number);
 	    return numberString.length() == 8;
 	}
+	
+
 }
 
