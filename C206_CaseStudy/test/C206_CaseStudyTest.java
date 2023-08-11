@@ -1,10 +1,4 @@
 import static org.junit.Assert.*;
-
-
-
-
-
-
 import org.junit.Before;
 import org.junit.Test;
 import java.util.ArrayList;
@@ -80,17 +74,6 @@ public class C206_CaseStudyTest {
 	        C206_CaseStudy.addUser(userList, InvalidContactNumber);
 	        assertEquals("Checking if the user with invalid contact number was rejected", 3, userList.size());
 	    }
-	  @Test
-	    public void testAddUser_DuplicateUsername() {
-	        User existingUser = new User("ExistingUser", "existing@example.com", "password", 87654321, "Existing Address");
-	        userList.add(existingUser);
-
-	        User duplicateUser = new User("ExistingUser", "duplicate@example.com", "password", 98765432, "Duplicate Address");
-	        int result = C206_CaseStudy.addUser(userList, duplicateUser);
-
-	        assertEquals(C206_CaseStudy.ADD_INVALID_USER, result);
-	        assertFalse(userList.contains(duplicateUser));
-	    }
 	  
 	  @Test
 	    public void testAddUser_ValidUsername() {
@@ -116,7 +99,47 @@ public class C206_CaseStudyTest {
 	      assertEquals("Test that the display is correct for non-empty userList", testOutput, allUser);
 	  }
 
+	  @Test
+	    public void testCheckPassword_ValidPassword() {
+	        assertTrue(C206_CaseStudy.checkPassword("Abcdefgh1@"));
+	    }
 
+	    @Test
+	    public void testCheckPassword_NoUppercase() {
+	        assertFalse(C206_CaseStudy.checkPassword("abcdefg1@"));
+	    }
+
+	    @Test
+	    public void testCheckPassword_NoLowercase() {
+	        assertFalse(C206_CaseStudy.checkPassword("ABCDEFG1@"));
+	    }
+
+
+	    @Test
+	    public void testCheckUserName_ExistingName() {
+	        userList.add(new User("John", "john@example.com", "Password123", 12345678, "Address"));
+	        assertFalse(C206_CaseStudy.checkUserName(userList, "John"));
+	    }
+
+	    @Test
+	    public void testCheckUserName_EmptyName() {
+	        assertFalse(C206_CaseStudy.checkUserName(userList, ""));
+	    }
+
+	    @Test
+	    public void testCheckEmail_ValidEmail() {
+	        assertTrue(C206_CaseStudy.checkEmail("user@example.com"));
+	    }
+
+	    @Test
+	    public void testCheckEmail_EmptyEmail() {
+	        assertFalse(C206_CaseStudy.checkEmail(""));
+	    }
+
+	    @Test
+	    public void testCheckEmail_InvalidEmail() {
+	        assertFalse(C206_CaseStudy.checkEmail("invalidemail"));
+	    }
 	
 } 
 
