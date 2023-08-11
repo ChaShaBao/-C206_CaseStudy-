@@ -10,6 +10,10 @@ import java.io.InputStream;
 import java.util.ArrayList;
 public class C206_CaseStudyTest {
 	
+	 private Service s1;
+	  private Service s2;
+	  private ArrayList<Service> servicesList;
+	
 	ArrayList<User> userList=new ArrayList<>();
 
 	@Before
@@ -17,10 +21,16 @@ public class C206_CaseStudyTest {
 	userList = new ArrayList<User>();
     userList.add(new User("Tom", "Tom@myrp.edu.sg", "123", 92012910, "Jurong West"));
      userList.add(new User("Jerry", "Jerry@myrp.edu.sg", "123", 92092910, "Jurong East"));
-        
+      
+     s1 = new Service("Purchase", "Laptop", 2134.0);
+     s2 = new Service("Rent", "Iphone", 324.0);
+
+     servicesList = new ArrayList<Service>();
+     
 	}
 	
 	
+	//--------Users-------
 
 	 @Test
 	    public void testAddUser() {
@@ -145,6 +155,80 @@ public class C206_CaseStudyTest {
 	    public void simulateUserInput(String input) {
 	        InputStream in = new ByteArrayInputStream(input.getBytes());
 	        System.setIn(in);
+	    }
+	    
+	    
+	    //------------SERVICE---------------//
+	    @Test
+	    public void testAddService() {
+	      // Test that service list is not null, so that can add a new service - boundary
+	      assertNotNull("Test if there is valid service arraylist to add to", servicesList);
+
+	      // Given an empty list, after adding 1 service, the size of the list is 1 -
+	      // normal
+	      // The service just added is as same as the first item of the list
+	      C206_CaseStudy.addService(servicesList, s1);
+	      assertEquals("Test that service arraylist size is 1", 1, servicesList.size());
+	      assertSame("Test that service is added", s1, servicesList.get(0));
+
+	      // Add another service. test The size of the list is 2? - normal
+	      // The service just added is as same as the second item of the list
+	      C206_CaseStudy.addService(servicesList, s2);
+	      assertEquals("Test that service arraylist size is 2", 2, servicesList.size());
+	      assertSame("Test that service is added", s2, servicesList.get(1));
+
+	    }
+
+	    @Test
+	    public void testRetrieveAllServicesList() {
+	      // fail("Not yet implemented");
+	      // Test if Service list is not null but empty - boundary
+	      assertNotNull("Test if there is valid service arraylist to retrieve services from", servicesList);
+
+	  // test if the list of Services retrieved from the CaseStudy is empty -
+	      // boundary
+	      String allService = C206_CaseStudy.retrieveAllService(servicesList);
+	      String testOutput = "";
+	      assertEquals("Check that viewservice", testOutput, allService);
+
+	      // Given an empty list, after adding 2 service, test if the size of the list is
+	      // 2
+	      // - normal 
+	      C206_CaseStudy.addService(servicesList, s1);
+	      C206_CaseStudy.addService(servicesList, s2);
+	      assertEquals("Test that service arraylist size is 2", 2, servicesList.size());
+
+	      // test if the expected output string same as the list of services retrieved
+	      // from the c206_casestudy
+	      allService = C206_CaseStudy.retrieveAllService(servicesList);
+	      testOutput += String.format("%-20s %-30s %-15s\n", "Purchase", "Laptop", "$2134.0");
+	      testOutput += String.format("%-20s %-30s %-15s\n", "Rent", "Iphone", "$324.0");
+	      assertEquals("Test that ViewAllServicesList", testOutput, allService);
+	    }
+
+	    @Test
+	    public void testDeleteService() {
+	      // Test deleting an existing service
+	      String serviceToDelete = "Iphone";
+	      C206_CaseStudy.deleteService(servicesList, serviceToDelete);
+	      assertEquals("Checking if the service was deleted", 0, servicesList.size());
+	      assertFalse("Checking if the deleted service is no longer in the list",
+	          servicesList.contains(new Service("Rent", "Iphone", 324)));
+
+	      // Test deleting a non-existing service
+	      String nonExistingservice = "nonexistingIphone";
+	      C206_CaseStudy.deleteService(servicesList, nonExistingservice);
+	      assertEquals("Checking if the list remains unchanged", 0, servicesList.size());
+
+	      // Test that service list is not null, so that can delete a service - boundary
+	      assertNotNull("Test if there is valid service arraylist to delete from", servicesList);
+	    }
+	    @After
+	    public void tearDown() throws Exception {
+	      s1 = null;
+	      s2 = null;
+	      
+	      servicesList = null;
 	    }
 	
 

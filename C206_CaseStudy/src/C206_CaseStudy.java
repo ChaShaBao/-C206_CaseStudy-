@@ -54,8 +54,30 @@ public class C206_CaseStudy {
     		} else if (b == 3) {
     			SPDel(spList);
     		}
-    		
-    	
+    	} else if (choice == 3) {
+            C206_CaseStudy.menuService();
+            int c = Helper.readInt("Enter an option> ");
+            if (c == 1) {
+              Service s = inputService(servicesList);
+              int status = C206_CaseStudy.addService(servicesList, s);
+              if (status == C206_CaseStudy.ADD_SUCCESS2) {
+                System.out.println("*** Service added successfully ***");
+
+              } else if (status == C206_CaseStudy.ADD_INVALID_SERVICE1) {
+                System.out.println("INVALID SERVICE: Invalid service name format. ");
+
+              }
+
+            } else if (c == 2) {
+              System.out.println(C206_CaseStudy.viewAllService(servicesList));
+
+            } else if (c == 3) {
+              String serviceToDelete = Helper.readString("Enter the name of the service to delete: ");
+              C206_CaseStudy.deleteService(servicesList, serviceToDelete);
+            } else {
+              System.out.println("INVALID OPTION");
+            }
+ 	
     	
 	} else if (choice==OPTION_QUIT) {
 		System.out.println("Bye!");
@@ -332,5 +354,109 @@ public class C206_CaseStudy {
 	        InputStream in = new ByteArrayInputStream(input.getBytes());
 	        System.setIn(in);
 	    }
+	 //----------------------------------------------
+	 //Services 
+	 
+	 public static void menuService() {
+		    C206_CaseStudy.setHeader("Services");
+		    System.out.println("1. Add Services");
+		    System.out.println("2. View all Services");
+		    System.out.println("3. Delete Services");
+		  }
+
+		  public static Service inputService(ArrayList<Service> servicesList) {
+		    String service = "";
+		    String description = "";
+		    double price = 0.0;
+		    while (service.isEmpty()) {
+		      service = Helper.readString("Enter Service name > ");
+		      if (service.isEmpty()) {
+		        System.out.println("Service Name cannot be empty > ");
+		      }
+		    }
+		    while (description.isEmpty()) {
+		      description = Helper.readString("Enter Description > ");
+		      if (description.isEmpty()) {
+		        System.out.println("Description cannot be empty > ");
+		      }
+		    }
+		    while (price == 0.0) {
+		      price = Helper.readDouble("Enter price >$ ");
+		      if (price == 0.0) {
+		        System.out.println("Price cannot be empty. ");
+		      }
+		    }
+
+		    Service s = new Service(service, description, price);
+		    return s;
+		  }
+
+		  public static String retrieveAllService(ArrayList<Service> servicesList) {
+		    String output = "";
+		 
+		    for (int i = 0; i < servicesList.size(); i++) {
+
+		output += String.format("%-20s %-30s %-15s\n", servicesList.get(i).getServiceName(),
+		          servicesList.get(i).getDescription(), "$" + servicesList.get(i).getPrice());
+
+		    }
+		    return output;
+		  }
+
+		  public static String viewAllService(ArrayList<Service> servicesList) {
+		    C206_CaseStudy.setHeader("SERVICE LIST");
+		    String output = String.format("%-20s %-30s %-15s\n", "SERVICE NAME", "DESCRIPTION", "PRICE");
+		    output += retrieveAllService(servicesList);
+		    //System.out.println(output);
+		    return output;
+		  }
+
+		  public static void deleteService(ArrayList<Service> servicesList, String serviceName) {
+		    Service serviceToRemove = null;
+		    for (Service S : servicesList) {
+		      if (S.getServiceName().equalsIgnoreCase(serviceName)) {
+		        //servicesList.remove(S);
+		        char confirmtoDelete = Character.toLowerCase(Helper.readChar("Confirm to delete? (y/n) > "));
+		        if (confirmtoDelete == 'y') {
+		          serviceToRemove = S;
+		          servicesList.remove(S);
+
+		          break;
+		        } else if (confirmtoDelete == 'n') {
+		          System.out.println("Deletion has been cancelled.");
+		          return;
+		        } else {
+		          System.out.println("Invalid input. Please enter 'y' or 'n'.");
+		        }
+		      }
+		    }
+
+		    if (serviceToRemove != null) {
+		      servicesList.remove(serviceToRemove);
+		      System.out.println("*** Service deleted ***");
+		    } else {
+		      System.out.println("Service with the specified name not found.");
+		    }
+		  }
+
+		  public static final int ADD_SUCCESS2 = 0;
+		  public static final int ADD_INVALID_SERVICE1 = 1;
+
+		  public static int addService(ArrayList<Service> servicesList, Service S) {
+		    String trimmedServiceName = S.getServiceName().trim();
+
+		    if (trimmedServiceName.isEmpty()) {
+		      return ADD_INVALID_SERVICE1;
+
+		    }
+		    for (Service s : servicesList) {
+		      if (s.getServiceName().equalsIgnoreCase(trimmedServiceName)) {
+		        return ADD_INVALID_SERVICE1;
+		      }
+		    }
+		    servicesList.add(S);
+		    return ADD_SUCCESS2;
+		  }
+	 
 }
 
