@@ -29,15 +29,17 @@ public class C206_CaseStudy {
     		C206_CaseStudy.menuUser();
     		int a=Helper.readInt("Enter an option > ");  		
     		if (a == 1) {
-    		    User u = inputUser(userList);
-    		    int status = C206_CaseStudy.addUser(userList, u);
-    		    if (status == C206_CaseStudy.ADD_SUCCESS) {
-    		        System.out.println("*** User added ***");
-    		    } else if (status == C206_CaseStudy.ADD_INVALID_USER) {
-    		        System.out.println("INVALID USER: Invalid name format or username already exists.");
-    		    } else if (status == C206_CaseStudy.ADD_INVALID_EMAIL) {
-    		        System.out.println("INVALID USER: Invalid email format.");
-    		    }
+    			 User u = inputUser(userList);
+                 int status = C206_CaseStudy.addUser(userList, u);
+                 if (status == C206_CaseStudy.ADD_SUCCESS) {
+                     System.out.println("*** User added ***");
+                 } else if (status == C206_CaseStudy.ADD_INVALID_USER) {
+                     System.out.println("INVALID USER: Invalid name format or username already exists.");
+                 } else if (status == C206_CaseStudy.ADD_INVALID_EMAIL) {
+                     System.out.println("INVALID USER: Invalid email format.");
+                 } else if (status == C206_CaseStudy.ADD_INVALID_PASSWORD) {
+                     System.out.println("INVALID USER: Invalid password format.");
+                 }
     		
     		}else if (a == 2) {
     			C206_CaseStudy.viewAllUser(userList);
@@ -148,30 +150,40 @@ public class C206_CaseStudy {
 	
 	
 	public static final int ADD_SUCCESS = 0;
-	public static final int ADD_INVALID_USER = 1;
-	public static final int ADD_INVALID_EMAIL = 2;
+    public static final int ADD_INVALID_USER = 1;
+    public static final int ADD_INVALID_EMAIL = 2;
+    public static final int ADD_INVALID_PASSWORD = 3;
 
-	public static int addUser(ArrayList<User> userList, User u) {
-	    String trimmedName = u.getName().trim();
-	    String trimmedEmail = u.getEmail().trim();
+    public static int addUser(ArrayList<User> userList, User u) {
+        String trimmedName = u.getName().trim();
+        String trimmedEmail = u.getEmail().trim();
+        String trimmedPassword = u.getPassword().trim(); // Trim the password
 
-	    if (trimmedName.isEmpty()) {
-	        return ADD_INVALID_USER;
+        if (trimmedName.isEmpty()) {
+            return ADD_INVALID_USER;
+        }
+
+        if (trimmedEmail.isEmpty() || !trimmedEmail.contains("@")) {
+            return ADD_INVALID_EMAIL;
+        }
+
+        if (!isValidPassword(trimmedPassword)) {
+            return ADD_INVALID_PASSWORD;
+        }
+
+        for (User user : userList) {
+            if (user.getName().equalsIgnoreCase(trimmedName)) {
+                return ADD_INVALID_USER;
+            }
+        }
+
+        userList.add(u);
+        return ADD_SUCCESS;
+    }
+	 private static boolean isValidPassword(String password) {
+	        return password.length() >= 10 && password.matches(".*[a-z].*") && password.matches(".*[A-Z].*")
+	                && password.matches(".*[@#$%^&+=].*");
 	    }
-
-	    if (trimmedEmail.isEmpty() || !trimmedEmail.contains("@")) {
-	        return ADD_INVALID_EMAIL;
-	    }
-
-	    for (User user : userList) {
-	        if (user.getName().equalsIgnoreCase(trimmedName)) {
-	            return ADD_INVALID_USER;
-	        }
-	    }
-
-	    userList.add(u);
-	    return ADD_SUCCESS;
-	}
 	
 		
 
