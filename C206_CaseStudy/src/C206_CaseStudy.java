@@ -29,15 +29,8 @@ public class C206_CaseStudy {
     		C206_CaseStudy.menuUser();
     		int a=Helper.readInt("Enter an option > ");  		
     		if (a == 1) {
-    		    User u = inputUser(userList);
-    		    int status = C206_CaseStudy.addUser(userList, u);
-    		    if (status == C206_CaseStudy.ADD_SUCCESS) {
-    		        System.out.println("*** User added ***");
-    		    } else if (status == C206_CaseStudy.ADD_INVALID_USER) {
-    		        System.out.println("INVALID USER: Invalid name format or username already exists.");
-    		    } else if (status == C206_CaseStudy.ADD_INVALID_EMAIL) {
-    		        System.out.println("INVALID USER: Invalid email format.");
-    		    }
+    			inputUser(userList);
+    		    
     		
     		}else if (a == 2) {
     			C206_CaseStudy.viewAllUser(userList);
@@ -92,10 +85,9 @@ public class C206_CaseStudy {
 		System.out.println("3. Delete User");
 	}
 	
-	public static User inputUser(ArrayList<User> userList) {
+	public static void inputUser(ArrayList<User> userList) {
 	    String name = "";
-	    while (true) {
-	        name = Helper.readString("Enter Username > ");
+	    name = Helper.readString("Enter Username > ");
 	        
 	        
 	        while (!checkUserName(userList, name)) {
@@ -106,16 +98,28 @@ public class C206_CaseStudy {
 	    String email = Helper.readString("Enter Email > ");
 	    while (!checkEmail(email)) {
         	email = Helper.readString("Enter Email > ");
-        }
-	    
-	    
+	    }
 	    
 	    String password = Helper.readString("Enter Password > ");
-	    int contactNumber = Helper.readInt("Enter Contact Number > ");
-	    String address = Helper.readString("Enter Address > ");
-	    userList.add(new User(name, email, password, contactNumber, address));
+	    while(!checkPassword(password)) {
+	    	password=Helper.readString("Enter Password > ");
 	    }
-	}
+	    
+	    int contactNumber = Helper.readInt("Enter Contact Number > ");
+	    while (!checkNumber(contactNumber)) {
+	    	contactNumber = Helper.readInt("Enter Contact Number > ");
+	    }
+	    
+	    String address = Helper.readString("Enter Address > ");
+	    
+	    if (userList.add(new User(name, email, password, contactNumber, address))) {
+	    	System.out.println("User Added Successfully");
+	    } else {
+	    	System.out.println("Adding Failed");
+	    }
+	    
+	    }
+
 	
 	
 	public static String retrieveAllUser(ArrayList<User> UserList) {
@@ -292,9 +296,35 @@ public class C206_CaseStudy {
 	
 	public static boolean checkNumber(int number) {
 		String numberString = Integer.toString(number);
-	    return numberString.length() == 8;
+		if (numberString.length() != 8) {
+	    	System.out.println("Invalid Number");
+	    	return false;
+	    }
+	    return true;
 	}
 	
+	public static boolean checkPassword(String password) {
+	    
+	    if (password.length() < 8) {
+	        System.out.println("Password must be at least 8 characters long");
+	        return false;
+	    }
 
+	   
+	    if (!password.matches(".*[A-Z].*")) {
+	        System.out.println("Password must contain at least one uppercase letter");
+	        return false;
+	    }
+
+	   
+	    if (!password.matches(".*[a-z].*")) {
+	        System.out.println("Password must contain at least one lowercase letter");
+	        return false;
+	    }
+
+
+	    
+	    return true;
+	}
 }
 
