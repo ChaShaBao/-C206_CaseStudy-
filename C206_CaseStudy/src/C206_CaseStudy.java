@@ -4,7 +4,7 @@ public class C206_CaseStudy {
 
 	public static void main(String[] args) {
  	ArrayList<User> userList = new ArrayList<User>();
-    ArrayList<ServiceProvider> serviceProvidersList = new ArrayList<ServiceProvider>();
+    ArrayList<ServiceProvider> spList = new ArrayList<ServiceProvider>();
     ArrayList<Service> servicesList = new ArrayList<Service>();
     ArrayList<Quote> quotesList = new ArrayList<Quote>();
     ArrayList<Request> requestList = new ArrayList<Request>();
@@ -41,6 +41,7 @@ public class C206_CaseStudy {
     		
     		}else if (a == 2) {
     			C206_CaseStudy.viewAllUser(userList);
+    			
     		}else if (a==3) {
     			String NameToDelete = Helper.readString("Enter the name of the user to delete: ");
     		    C206_CaseStudy.deleteUser(userList, NameToDelete);
@@ -48,8 +49,20 @@ public class C206_CaseStudy {
     			System.out.println("INVALID OPTION");
     		}
     	
+    	} else if (choice == 2) {
+    		SPMenu(spList);
+    		int b = Helper.readInt("Enter an option > ");
+    		if (b == 1) {
+    			SPAdd(spList);	
+    		} else if (b == 2) {
+    			SPView(spList);
+    		} else if (b == 3) {
+    			SPDel(spList);
+    		}
+    		
     	
-	}else if (choice==OPTION_QUIT) {
+    	
+	} else if (choice==OPTION_QUIT) {
 		System.out.println("Bye!");
     		}
     	}
@@ -175,7 +188,65 @@ public class C206_CaseStudy {
 	    return ADD_SUCCESS;
 	}
 	
+	public static void SPMenu(ArrayList<ServiceProvider> spList) {
+		Helper.line(30, "-");
+		System.out.println("Service Provider");
+		Helper.line(30, "-");
+		System.out.println("1. Add Service Provider\n2. View All Service Provider\n3. Delete User");
+	}
+	
+	public static void SPAdd(ArrayList<ServiceProvider> spList) {
+		String SPName = Helper.readString("Enter Service Provider Name > ");
+		while (!checkSPName(spList, SPName)){
+			SPName = Helper.readString("Enter Service Provider Name > ");
+		}
+		String SPEmail = Helper.readString("Enter Email > ");
+		int SPNo = Helper.readInt("Enter Contact Number > ");
+		String BusinessAdd = Helper.readString("Enter Business Address > ");
+		boolean yes = spList.add(new ServiceProvider(SPName, SPEmail, SPNo, BusinessAdd));
+		if (yes) {
+			System.out.println("Service Provider Added Successfully");
+		} else {
+			System.out.println("Adding Failed");
+		}
+			
+		}
+	
+	public static void SPView(ArrayList<ServiceProvider> spList) {
+		Helper.line(30, "-");
+		System.out.println("SERVICE PROVIDER LIST");
+		Helper.line(30, "-");
+		System.out.println("");
+		System.out.println(String.format("%-10s %-20s %-10s %s\n", "NAME", "EMAIL", "CONTACT", "ADDRESS"));
+		for (ServiceProvider i : spList) {
+			System.out.println(String.format("%-10s %-20s %-10d %s\n", i.getName(),i.getEmail(),i.getContactNumber(),i.getBusinessAddress()));
+		}
+	}
+	
+	public static void SPDel(ArrayList<ServiceProvider> spList) {
+		String delname = Helper.readString("Enter service provider name to delete > ");
+		boolean rmv = false;
+		for (ServiceProvider i : spList) {
+			if (i.getName().equalsIgnoreCase(delname)) {
+				spList.remove(i);
+				rmv = true;
+			}
+		}
+		if (rmv = true) {
+			System.out.println("Service Provider Removed Successfully");
+		} else {
+			System.out.println("Service Provider Not Found");
+		}
+	}
 		
-
+	public static boolean checkSPName(ArrayList<ServiceProvider> spList, String name) {
+		for (ServiceProvider i : spList) {
+			if (i.getName().equalsIgnoreCase(name)) {
+				System.out.println("Name Already Exist");
+				return false;
+			}
+		}
+		return true;
+	}
 }
 
