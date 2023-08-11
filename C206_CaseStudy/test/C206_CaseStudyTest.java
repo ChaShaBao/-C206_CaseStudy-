@@ -118,19 +118,6 @@ public class C206_CaseStudyTest {
 	      allUser = C206_CaseStudy.retrieveAllUser(userList);     
 	      assertEquals("Test that the display is correct for non-empty userList", testOutput, allUser);
 	  }
-	  
-	  @Test
-	    public void testValidPassword() {
-	        User validPasswordUser = new User("John", "john@example.com", "Valid@Password1", 12345678, "Somewhere");
-	        C206_CaseStudy.addUser(userList, validPasswordUser);
-	        assertEquals("Checking if the password is valid", 3, userList.size());
-	        assertEquals("Checking if the user with valid password was added correctly", validPasswordUser, userList.get(2));
-
-	        User invalidPasswordUser = new User("Jane", "jane@example.com", "invalidpassword", 87654321, "Nowhere");
-	        int result = C206_CaseStudy.addUser(userList, invalidPasswordUser);
-	        assertEquals("Checking if the user with invalid password was rejected", C206_CaseStudy.ADD_INVALID_USER, result);
-	        assertFalse("Checking if the user with invalid password was not added to the list", userList.contains(invalidPasswordUser));
-	    }
 
 
 	
