@@ -1,41 +1,47 @@
+import java.util.Date;
+
 public class Quote {
     int quoteId;
-    Service service;
     ServiceProvider serviceProvider;
+    String description;
+    Date responseDate;
     double price;
-    String additionalInfo;
 
-    public Quote(int quoteId, Service service, ServiceProvider serviceProvider, double price, String additionalInfo) {
+    public Quote(int quoteId, ServiceProvider serviceProvider,String description, Date responseDate,double price) {
         this.quoteId = quoteId;
-        this.service = service;
+        
         this.serviceProvider = serviceProvider;
-        this.price = price;
-        this.additionalInfo = additionalInfo;
+        this.description = description;
+        this.responseDate=responseDate;
+        this.price=price;
     }
     public int getQuoteId() {
         return quoteId;
     }
-    public Service getService() {
-        return service;
-    }
+    
     public ServiceProvider getServiceprovider() {
         return serviceProvider;
     }
+    public String getDescription() {
+    	return description;
+    }
+    public Date responseDate() {
+    	return responseDate;
+    }
     public double getPrice() {
         return price;
+    
     }
-    public String getAdditionalInfo() {
-        return additionalInfo;
+   
+    public void setDescription(String description) {
+    	this.description=description;
     }
-    public void setQuoteid(int quoteId2) {
-        this.quoteId = quoteId2;
+    public void setresponseDate(Date responseDate) {
+    	this.responseDate=responseDate;
     }
     public void setPrice(double price) {
         this.price = price;
     }
-    public void setAdditionalInfo(String additionalInfo) {
-        this.additionalInfo = additionalInfo;
-    }
-	
+    
 	
 }
