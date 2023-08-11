@@ -250,9 +250,16 @@ public class C206_CaseStudy {
 		boolean rmv = false;
 		for (ServiceProvider i : spList) {
 			if (i.getName().equalsIgnoreCase(delname)) {
-				System.out.println("");
-				spList.remove(i);
-				rmv = true;
+				char confirm = Helper.readChar("Are you sure you want to delete? (Y/N)");
+				if (confirm == 'Y' || confirm == 'y'){
+					spList.remove(i);
+					rmv = true;
+				} else if (confirm == 'N' || confirm == 'n') {
+					System.out.println("Delete Cancelled");
+				} else {
+					System.out.println("Invalid Choice" );
+				}
+				
 			}
 		}
 		if (rmv = true) {
