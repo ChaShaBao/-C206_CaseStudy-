@@ -236,6 +236,7 @@ public class C206_CaseStudy {
 		boolean rmv = false;
 		for (ServiceProvider i : spList) {
 			if (i.getName().equalsIgnoreCase(delname)) {
+				System.out.println("");
 				spList.remove(i);
 				rmv = true;
 			}
