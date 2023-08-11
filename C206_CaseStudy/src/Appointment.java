@@ -1,56 +1,70 @@
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+
 import java.util.Date;
 
 public class Appointment {
      int appointmentId;
-     Service service;
-     ServiceProvider serviceProvider;
      User user;
-     Date date;
+     ServiceProvider serviceProvider;
+     String description;
+     Date appointmentDate;
+     Date appointmentTime;
+     String status;   
      String additionalDetails;
 
-    public Appointment(int appointmentId, Service service, ServiceProvider serviceProvider, User user, String date, String additionalDetails) {
+    public Appointment(int appointmentId, User user, ServiceProvider serviceProvider,String description, Date appointmentDate, Date appointmentTime, String status, String additionalDetails) {
         this.appointmentId = appointmentId;
-        this.service = service;
+        this.user=user;
         this.serviceProvider = serviceProvider;
-        this.user = user;
-        this.date = parseDate(date);
+        this.description=description;
+        this.appointmentDate = appointmentDate;
+        this.appointmentTime=appointmentTime;
+        this.status=status;
         this.additionalDetails = additionalDetails;
+        
+        
     }
 
     public int getAppointmentid() {
         return appointmentId;
     }
-    public Service getService() {
-        return service;
+    public User getUser() {
+    	return user;
     }
+    
     public ServiceProvider getServiceprovider() {
         return serviceProvider;
     }
-    public User getUser() {
-      return user;
+    public String getDescription(){
+    	return description;
+    	
     }
-    public Date getDate() {
-      return date;
+  
+    public Date getAppointmentDate() {
+    	return appointmentDate;
+    }
+    public Date getAppointmentTime() {
+    	return appointmentTime;
+    }
+    public String getStatus() {
+    	return status;
     }
     public String getAdditionaldetails() {
-      return additionalDetails;
+    	return additionalDetails;
     }
-    public void setDate(Date date) {
-        this.date = date;
+    public void setDescription(String description) {
+    	this.description=description;
+    }
+    public void setAppointmentDate(Date appointmentDate) {
+        this.appointmentDate = appointmentDate;
+    }
+    public void setAppointmentTime(Date appointmentTime) {
+    	this.appointmentTime=appointmentTime;
+    }
+    public void setStatus(String status) {
+    	this.status=status;
     }
     
-    public void setAdditionaldetils(String additionalDetails) {
+    public void setAdditionaldetails(String additionalDetails) {
         this.additionalDetails = additionalDetails;
-    }
-    private Date parseDate(String dateStr) {
-        try {
-            SimpleDateFormat inputFormat = new SimpleDateFormat("dd-MM-yyyy");
-            return inputFormat.parse(dateStr);
-        } catch (ParseException e) {
-            e.printStackTrace(); // Handle the exception appropriately
-            return null;
-        }
     }
 }
