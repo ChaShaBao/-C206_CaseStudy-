@@ -1,13 +1,10 @@
 import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.After;
 import java.util.ArrayList;
-import static org.junit.Assert.*;
-import org.junit.Before;
-import org.junit.Test;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
-import java.util.ArrayList;
 public class C206_CaseStudyTest {
 	
 	 private Service s1;
@@ -28,6 +25,13 @@ public class C206_CaseStudyTest {
      servicesList = new ArrayList<Service>();
      
 	}
+	 @After
+	    public void tearDown() throws Exception {
+	      s1 = null;
+	      s2 = null;
+	      
+	      servicesList = null;
+	    }
 	
 	
 	//--------Users-------
@@ -48,49 +52,69 @@ public class C206_CaseStudyTest {
 	 
 	 @Test
 	 public void testAddUserWithEmailValidation() {
-	    
-	     User newUserValidEmail = new User("John", "john@example.com", "123", 98765432, "Somewhere");
-	     C206_CaseStudy.addUser(userList, newUserValidEmail);
-	     assertEquals("Checking if the user was added", 3, userList.size());
-	     assertEquals("Checking if the user was added correctly", newUserValidEmail, userList.get(2));
-	     
-	     User newUserInvalidEmail = new User("Jane", "invalid-email.com", "456", 87654321, "Nowhere");
-	     C206_CaseStudy.addUser(userList, newUserInvalidEmail);
+	     // Creating a new user with a valid email
+	     User newUserValidEmail = new User("John", "john@example.com", "123", 98765432, "Somewhere");	     
+	     // Adding the user to the userList using the addUser method
+	     C206_CaseStudy.addUser(userList, newUserValidEmail);	     
+	     // Asserting that the user was added successfully
+	     assertEquals("Checking if the user was added", 3, userList.size());	     
+	     // Asserting that the user added is the same as the one in the list
+	     assertEquals("Checking if the user was added correctly", newUserValidEmail, userList.get(2));	     
+	     // Creating a new user with an invalid email
+	     User newUserInvalidEmail = new User("Jane", "invalid-email.com", "456", 87654321, "Nowhere");	     
+	     // Adding the user with an invalid email to the userList
+	     C206_CaseStudy.addUser(userList, newUserInvalidEmail);	     
+	     // Asserting that the user with an invalid email was rejected and the list size remains unchanged
 	     assertEquals("Checking if the user with invalid email was rejected", 3, userList.size());
 	 }
 	 
 	 @Test
-	    public void testValidContactNumber() {
-	       User ValidContactNumber = new User("John", "john@example.com", "123", 12345678, "Somewhere");
-	        C206_CaseStudy.addUser(userList, ValidContactNumber);
-	        assertEquals("Checking if the contact number is valid", 3,userList.size());
-	        assertEquals("Checking if the contact number was added correctly", ValidContactNumber, userList.get(2));
-	        User InvalidContactNumber = new User("John", "john@example.com", "123", 1234567, "Somewhere");
-	        C206_CaseStudy.addUser(userList, InvalidContactNumber);
-	        assertEquals("Checking if the user with invalid contact number was rejected", 3, userList.size());
-	    }
-	  
-	  @Test
-	    public void testAddUser_ValidUsername() {
-	        User testUser = new User("ValidUsername", "valid@example.com", "password", 12345678, "Test Address");
-	        int result = C206_CaseStudy.addUser(userList, testUser);
-
-	        assertEquals(C206_CaseStudy.ADD_SUCCESS, result);
-	        assertTrue(userList.contains(testUser));
-	    }
+	 public void testValidContactNumber() {
+	     // Creating a new user with a valid contact number
+	     User ValidContactNumber = new User("John", "john@example.com", "123", 12345678, "Somewhere");    
+	     // Adding the user to the userList
+	     C206_CaseStudy.addUser(userList, ValidContactNumber);	     
+	     // Asserting that the contact number is valid and the user was added
+	     assertEquals("Checking if the contact number is valid", 3, userList.size());
+	     assertEquals("Checking if the contact number was added correctly", ValidContactNumber, userList.get(2));
+	     // Creating a new user with an invalid contact number
+	     User InvalidContactNumber = new User("John", "john@example.com", "123", 1234567, "Somewhere");	     
+	     // Adding the user with an invalid contact number to the userList
+	     C206_CaseStudy.addUser(userList, InvalidContactNumber);	     
+	     // Asserting that the user with an invalid contact number was rejected and the list size remains unchanged
+	     assertEquals("Checking if the user with invalid contact number was rejected", 3, userList.size());
+	 }
+	 @Test
+	 public void testAddUser_ValidUsername() {
+	     // Creating a new user with a valid username
+	     User testUser = new User("ValidUsername", "valid@example.com", "password", 12345678, "Test Address");	     
+	     // Adding the user to the userList and capturing the result
+	     int result = C206_CaseStudy.addUser(userList, testUser);
+	     // Asserting that the add operation was successful and the user is in the list
+	     assertEquals(C206_CaseStudy.ADD_SUCCESS, result);
+	     assertTrue(userList.contains(testUser));
+	 }
 	  @Test
 	  public void testRetrieveAllUser() {
-	      userList.clear(); 
-	      String testOutput = "";	      
-	      String allUser = C206_CaseStudy.retrieveAllUser(userList);
+	      // Clearing the userList for testing
+	      userList.clear();	      
+	      // Initializing a test output string
+	      String testOutput = "";      
+	      // Calling the retrieveAllUser method with an empty userList
+	      String allUser = C206_CaseStudy.retrieveAllUser(userList);	      
+	      // Asserting that the correct output is displayed for an empty userList
 	      assertEquals("Test nothing is displayed for empty userList", testOutput, allUser);	      
-	      userList.clear(); 
+	      // Clearing the userList and adding sample users
+	      userList.clear();
 	      userList.add(new User("Tom", "Tom@myrp.edu.sg", "123", 92012910, "Jurong West"));
 	      userList.add(new User("Jerry", "Jerry@myrp.edu.sg", "123", 92092910, "Jurong East"));	      
+	      // Creating a formatted test output
 	      testOutput = "";
 	      testOutput += String.format("%-10s %-20s %-10s %-15d %-20s\n", "Tom", "Tom@myrp.edu.sg", "123", 92012910, "Jurong West");
 	      testOutput += String.format("%-10s %-20s %-10s %-15d %-20s\n", "Jerry", "Jerry@myrp.edu.sg", "123", 92092910, "Jurong East");	      
-	      allUser = C206_CaseStudy.retrieveAllUser(userList);     
+	      // Calling the retrieveAllUser method with the populated userList
+	      allUser = C206_CaseStudy.retrieveAllUser(userList);	      
+	      // Asserting that the displayed output matches the expected testOutput
 	      assertEquals("Test that the display is correct for non-empty userList", testOutput, allUser);
 	  }
 
@@ -137,23 +161,34 @@ public class C206_CaseStudyTest {
 	    }
 	    @Test
 	    public void testDeleteUser() {
+	        // Creating a list of User objects for testing
 	        ArrayList<User> userList = new ArrayList<>();
-	        userList.add(new User("Jerry", "Jerry@myrp.edu.sg", "123", 92092910, "Jurong East"));
-	        String nameToDelete = "Jerry";
-	        simulateUserInput("yes\n");
-	        C206_CaseStudy.deleteUser(userList, nameToDelete); 
-	        assertEquals("Checking if the user was deleted", 0, userList.size()); 
-	        assertFalse("Checking if the deleted user is no longer in the list", 
-	        userList.contains(new User("Jerry", "Jerry@myrp.edu.sg", "123", 92092910, "Jurong East")));
-	        userList.add(new User("Alice", "alice@myrp.edu.sg", "456", 98765432, "Bukit Timah"));
-	        String nonExistingName = "Bob"; 
-	        C206_CaseStudy.deleteUser(userList, nonExistingName); 
+	        userList.add(new User("Jerry", "Jerry@myrp.edu.sg", "123", 92092910, "Jurong East"));	        
+	        // Name of the user to be deleted
+	        String nameToDelete = "Jerry";	        
+	        // Simulating user input to accept deletion confirmation
+	        simulateUserInput("yes\n");	        
+	        // Calling the deleteUser method to test user deletion
+	        C206_CaseStudy.deleteUser(userList, nameToDelete);	        
+	        // Asserting that the user was deleted from the list
+	        assertEquals("Checking if the user was deleted", 0, userList.size());	        
+	        // Asserting that the deleted user is no longer in the list
+	        assertFalse("Checking if the deleted user is no longer in the list",
+	        userList.contains(new User("Jerry", "Jerry@myrp.edu.sg", "123", 92092910, "Jurong East")));	        
+	        // Adding a new user to the list for further testing
+	        userList.add(new User("Alice", "alice@myrp.edu.sg", "456", 98765432, "Bukit Timah"));	        
+	        // Name of a non-existing user for deletion testing
+	        String nonExistingName = "Bob";	        
+	        // Calling the deleteUser method with a non-existing name
+	        C206_CaseStudy.deleteUser(userList, nonExistingName);        
+	        // Asserting that the list remains unchanged after attempting to delete non-existing user
 	        assertEquals("Checking if the list remains unchanged", 1, userList.size());
-	        
-	        
 	    }
+
+	    // Method to simulate user input for testing purposes
 	    public void simulateUserInput(String input) {
 	        InputStream in = new ByteArrayInputStream(input.getBytes());
+	        // Redirecting System.in to the simulated input stream
 	        System.setIn(in);
 	    }
 	    
@@ -223,14 +258,7 @@ public class C206_CaseStudyTest {
 	      // Test that service list is not null, so that can delete a service - boundary
 	      assertNotNull("Test if there is valid service arraylist to delete from", servicesList);
 	    }
-	    @After
-	    public void tearDown() throws Exception {
-	      s1 = null;
-	      s2 = null;
-	      
-	      servicesList = null;
-	    }
-	
+	   
 
 	
 } 
