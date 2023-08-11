@@ -1,3 +1,5 @@
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import java.util.ArrayList;
 public class C206_CaseStudy {
 	private static final int OPTION_QUIT = 7;
@@ -145,16 +147,24 @@ public class C206_CaseStudy {
 	}
 	public static void deleteUser(ArrayList<User> userList, String name) {
 	    boolean found = false;
+	    User userToRemove = null;
+
 	    for (User user : userList) {
 	        if (user.getName().equalsIgnoreCase(name)) {
-	            userList.remove(user);
+	            userToRemove = user;
 	            found = true;
 	            break;
 	        }
 	    }
 
-	    if (found) {
-	        System.out.println("*** User deleted ***");
+	    if (found) { 
+	        String confirmation = Helper.readString("Do you want to delete this user? (yes/no) > ");
+	        if (confirmation.equalsIgnoreCase("yes")) {
+	            userList.remove(userToRemove);
+	            System.out.println("*** User deleted ***");
+	        } else {
+	            System.out.println("Deletion canceled.");
+	        }
 	    } else {
 	        System.out.println("User with the specified name not found.");
 	    }
@@ -318,5 +328,9 @@ public class C206_CaseStudy {
 	    
 	    return true;
 	}
+	 public void simulateUserInput(String input) {
+	        InputStream in = new ByteArrayInputStream(input.getBytes());
+	        System.setIn(in);
+	    }
 }
 
