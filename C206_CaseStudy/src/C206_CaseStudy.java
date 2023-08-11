@@ -10,7 +10,7 @@ public class C206_CaseStudy {
     ArrayList<Request> requestList = new ArrayList<Request>();
     ArrayList<Appointment> appointmentList = new ArrayList<Appointment>();
     
-    //Testing push for Josh
+    
     
     //testForUser 
     userList.add(new User("Tom", "Tom@myrp.edu.sg","123",92012910,"Jurong West"));
@@ -122,6 +122,7 @@ public class C206_CaseStudy {
 	    User u = new User(name, email, password, contactNumber, address);
 	    return u;
 	}
+	
 	
 	public static String retrieveAllUser(ArrayList<User> UserList) {
 		String output = "";
