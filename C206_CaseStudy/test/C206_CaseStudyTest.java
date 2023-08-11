@@ -11,11 +11,8 @@ import java.util.ArrayList;
 
 public class C206_CaseStudyTest {
 	
-	
 	ArrayList<User> userList=new ArrayList<>();
-	
-	
-	
+
 	@Before
 	public void setUp() throws Exception {
 	userList = new ArrayList<User>();

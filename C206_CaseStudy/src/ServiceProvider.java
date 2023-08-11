@@ -3,11 +3,11 @@ public class ServiceProvider {
 	
      String ServiceName;
      String email;
-     String contactNumber;
+     int contactNumber;
      String businessAddress;
     
 
-    public ServiceProvider(String name, String email, String contactNumber, String businessAddress) {
+    public ServiceProvider(String name, String email, int contactNumber, String businessAddress) {
         this.ServiceName = name;
         this.email = email;
         this.contactNumber = contactNumber;
@@ -20,7 +20,7 @@ public class ServiceProvider {
     public String getEmail() {
         return email;
     }
-    public String getContactNumber() {
+    public int getContactNumber() {
     	return contactNumber;
     }
     public String getBusinessAddress() {
@@ -34,7 +34,7 @@ public class ServiceProvider {
         this.email = email;
     }
 
-    public void setContactNumber(String contactNumber) {
+    public void setContactNumber(int contactNumber) {
         this.contactNumber = contactNumber;
     }
     public void setBusiness(String business) {
