@@ -202,7 +202,15 @@ public class C206_CaseStudy {
 			SPName = Helper.readString("Enter Service Provider Name > ");
 		}
 		String SPEmail = Helper.readString("Enter Email > ");
+		while (!checkEmail(SPEmail)) {
+			System.out.println("Invalid Email");
+			SPEmail = Helper.readString("Enter Email > ");
+		}
 		int SPNo = Helper.readInt("Enter Contact Number > ");
+		while (!checkNumber(SPNo)) {
+			System.out.println("Invalid Contact Number");
+			SPNo = Helper.readInt("Enter Contact Number > ");
+		}
 		String BusinessAdd = Helper.readString("Enter Business Address > ");
 		boolean yes = spList.add(new ServiceProvider(SPName, SPEmail, SPNo, BusinessAdd));
 		if (yes) {
@@ -248,6 +256,18 @@ public class C206_CaseStudy {
 			}
 		}
 		return true;
+	}
+	
+	public static boolean checkEmail(String email) {
+		if (email.trim().isEmpty() || !email.trim().contains("@")) {
+			return false;
+		}
+		return true;
+	}
+	
+	public static boolean checkNumber(int number) {
+		String numberString = Integer.toString(number);
+	    return numberString.length() == 8;
 	}
 }
 
