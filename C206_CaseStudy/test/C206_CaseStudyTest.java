@@ -259,7 +259,7 @@ public class C206_CaseStudyTest {
 	      assertNotNull("Test if there is valid service arraylist to delete from", servicesList);
 	    }
 	   
-//test
+
 	
 } 
 
