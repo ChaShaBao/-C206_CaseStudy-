@@ -3,23 +3,24 @@ import java.util.Date;
 
 public class Appointment {
      int appointmentId;
-     User user;
-     ServiceProvider serviceProvider;
-     String description;
+     int userId;
+     int serviceProviderId;
+     String additionalDetails;
      Date appointmentDate;
      Date appointmentTime;
-     String status;   
-     String additionalDetails;
+     String appointmentStatus;   
+ 
 
-    public Appointment(int appointmentId, User user, ServiceProvider serviceProvider,String description, Date appointmentDate, Date appointmentTime, String status, String additionalDetails) {
+    public Appointment(int appointmentId, int userId, int serviceProviderId , String additionalDetails, Date appointmentDate,Date appointmentTime,  String appointmentStatus) {
         this.appointmentId = appointmentId;
-        this.user=user;
-        this.serviceProvider = serviceProvider;
-        this.description=description;
+        this.userId=userId;
+        this.serviceProviderId = serviceProviderId;
+       
+        this.additionalDetails = additionalDetails;
         this.appointmentDate = appointmentDate;
         this.appointmentTime=appointmentTime;
-        this.status=status;
-        this.additionalDetails = additionalDetails;
+        this.appointmentStatus=appointmentStatus;
+       
         
         
     }
@@ -27,44 +28,42 @@ public class Appointment {
     public int getAppointmentid() {
         return appointmentId;
     }
-    public User getUser() {
-    	return user;
+    public int getUserId() {
+    	return userId;
     }
     
-    public ServiceProvider getServiceprovider() {
-        return serviceProvider;
-    }
-    public String getDescription(){
-    	return description;
+    public int getServiceproviderId() {
+        return serviceProviderId;
     	
     }
-  
+
+    public String getAdditionalDetails() {
+	    return additionalDetails;
+    }
     public Date getAppointmentDate() {
     	return appointmentDate;
+   
     }
     public Date getAppointmentTime() {
     	return appointmentTime;
     }
-    public String getStatus() {
-    	return status;
+    public String getAppointmentStatus() {
+    	return appointmentStatus;
+    
     }
-    public String getAdditionaldetails() {
-    	return additionalDetails;
-    }
-    public void setDescription(String description) {
-    	this.description=description;
+    public void setAdditionaldetails(String additionalDetails) {
+        this.additionalDetails = additionalDetails;
     }
     public void setAppointmentDate(Date appointmentDate) {
         this.appointmentDate = appointmentDate;
+ 
     }
     public void setAppointmentTime(Date appointmentTime) {
     	this.appointmentTime=appointmentTime;
     }
-    public void setStatus(String status) {
-    	this.status=status;
+    public void setAppointmentStatus(String appointmentStatus) {
+    	this.appointmentStatus=appointmentStatus;
     }
     
-    public void setAdditionaldetails(String additionalDetails) {
-        this.additionalDetails = additionalDetails;
-    }
+   
 }

@@ -2,46 +2,58 @@ import java.util.Date;
 
 public class Quote {
     int quoteId;
-    ServiceProvider serviceProvider;
+    int serviceProviderId;
     String description;
-    Date responseDate;
     double price;
+    Date responseDate;
+    Date proposedTimeline;
+  
 
-    public Quote(int quoteId, ServiceProvider serviceProvider,String description, Date responseDate,double price) {
+    public Quote(int quoteId,int serviceProviderId,String description,double price,Date responseDate,Date proposedTimeline) {
         this.quoteId = quoteId;
-        
-        this.serviceProvider = serviceProvider;
+        this.serviceProviderId=serviceProviderId;
+       
         this.description = description;
-        this.responseDate=responseDate;
         this.price=price;
+        this.responseDate=responseDate;
+        this.proposedTimeline=proposedTimeline;
     }
     public int getQuoteId() {
         return quoteId;
     }
-    
-    public ServiceProvider getServiceprovider() {
-        return serviceProvider;
+    public int getServiceProviderId() {
+    	return serviceProviderId;
     }
     public String getDescription() {
     	return description;
     }
-    public Date responseDate() {
-    	return responseDate;
-    }
+
     public double getPrice() {
         return price;
+    }
+    public Date getResponseDate() {
+    	return responseDate;
+    
+    
+    }
+    public Date getProposedTimeline() {
+    	return proposedTimeline;
     
     }
    
     public void setDescription(String description) {
     	this.description=description;
     }
-    public void setresponseDate(Date responseDate) {
-    	this.responseDate=responseDate;
-    }
     public void setPrice(double price) {
         this.price = price;
     }
+    public void setresponseDate(Date responseDate) {
+    	this.responseDate=responseDate;
+    }
+    public void setProposedTimeline(Date proposedTimeline) {
+    	this.proposedTimeline=proposedTimeline;
+    }
+    
     
 	
 }
