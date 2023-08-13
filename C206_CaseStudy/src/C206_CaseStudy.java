@@ -1,6 +1,11 @@
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.text.SimpleDateFormat;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
+import java.text.ParseException;
 public class C206_CaseStudy {
 	private static final int OPTION_QUIT = 7;
 
@@ -20,6 +25,14 @@ public class C206_CaseStudy {
 	userList.add(new User("Alex", "Alex@gmail.com","123",92092990, "Yishun"));
 	userList.add(new User("Jane","Jane@gmail.com","123",92092910 ,"Woodlands"));
 
+	//testForRequest
+	requestList.add(new Request(1,1,"HHI","HOW ABOUT NO",100.0,new Date(),new Date(),"Pending"));
+	requestList.add(new Request(2,2,"BYE","YES",150.0,new Date(),new Date(),"Accepted"));
+	
+	//testForAppointment
+	 appointmentList.add(new Appointment(1,1,1,"Yes",new Date(),new Date(),"Pending"));
+     appointmentList.add(new Appointment(2,2,2,"No",new Date(),new Date(),"Pending"));
+	
     int choice = 0;
    
     while (choice!=OPTION_QUIT) {
@@ -77,12 +90,75 @@ public class C206_CaseStudy {
             } else {
               System.out.println("INVALID OPTION");
             }
+    	}else if (choice == 5) {
+    		C206_CaseStudy.menuRequest();
+    		int e = Helper.readInt("Enter an option > ");
+    		if  (e==1){
+    			Request r = C206_CaseStudy.inputRequest(requestList);
+    			int status=C206_CaseStudy.addRequest(requestList,r);
+    			if (status== C206_CaseStudy.ADD_SUCCESS) {
+    				System.out.println("*** Request added successfully ***");
+    			}
+    			else if (status==C206_CaseStudy.ADD_INVALID_REQUESTID) {
+    				System.out.println("INVALID REQUEST: Invalid request ID format or request ID already exists. ");
+    			}
+    			else if (status==C206_CaseStudy.ADD_INVALID_USERID) {
+    				System.out.println("INVALID USER: Invalid user ID format or user ID already exists.");
+    			}
+    			
+    			
+    		}
+    		else if (e==2) {
+    			C206_CaseStudy.viewAllRequest(requestList);
+    		}
+    		else if (e==3) {
+    			int requestToDelete=Helper.readInt("Enter the requestID to delete: ");
+    			C206_CaseStudy.deleteRequest(requestList,requestToDelete);
+    		}
+    		else {
+    			System.out.println("INVALID OPTION");
+    		}
+    		}else if (choice==6) {
+    			C206_CaseStudy.menuAppointment();
+    		int f= Helper.readInt("Enter an option > ");
+    		if (f==1) {
+    			Appointment a = C206_CaseStudy.inputAppointment(appointmentList);
+    			int status=C206_CaseStudy.addAppointment(appointmentList,a);
+    			if (status ==C206_CaseStudy.ADD_SUCCESS) {
+    				System.out.println("*** Appointment added successfully ***");
+    				
+    			}
+    			else if (status == C206_CaseStudy.ADD_INVALID_APPOINTMENTID) {
+    				System.out.println("INVALID APPOINTMENT: Invalid appointment ID format or appointment ID already exists. ");
+    				
+    			}
+    			else if (status==C206_CaseStudy.ADD_INVALID_USERID) {
+    				System.out.println("INVALID USER: Invalid user ID format or user ID already exists. ");
+    				
+    			}
+    			else if (status==C206_CaseStudy.ADD_INVALID_SERVICEPROVIDERID) {
+    				System.out.println("INVALID SERVICE PROVIDER: Invalid Service Provider ID format or Service Provider ID already exists. ");
+    			}
+    			
+    		}
+    		else if (f==2) {
+    			C206_CaseStudy.viewAllAppointment(appointmentList);
+    		}
+    		else if (f==3) {
+    			int appointmentToDelete= Helper.readInt("Enter the appointmentID to delete: ");
+    			C206_CaseStudy.deleteAppointment(appointmentList, appointmentToDelete);
+    		}
+    		else {
+    			System.out.println("INVALID OPTION");
+    		}
+    	
+    
  	
     	
-	} else if (choice==OPTION_QUIT) {
+	} else if  (choice==OPTION_QUIT) {
 		System.out.println("Bye!");
     		}
-    	}
+    }
 	}
 	public static void menu() {
 		C206_CaseStudy.setHeader("Renovation Portal");
@@ -135,6 +211,9 @@ public class C206_CaseStudy {
 	    }
 	    
 	    String address = Helper.readString("Enter Address > ");
+	    while(!checkAddress(address)) {
+	    	address= Helper.readString("Enter Address > ");
+	    }
 	    
 	    if (userList.add(new User(name, email, password, contactNumber, address))) {
 	    	System.out.println("User Added Successfully");
@@ -151,7 +230,7 @@ public class C206_CaseStudy {
 		
 		for (int i = 0; i < UserList.size(); i++) {
 
-			output += String.format("%-10s %-20s %-10s %-15d %-20s\n", 
+			output += String.format("%-10s %-20s %-15s %-15d %-20s\n", 
 					UserList.get(i).getName(),
 					UserList.get(i).getEmail(), 
 					UserList.get(i).getPassword(),
@@ -162,7 +241,7 @@ public class C206_CaseStudy {
 	}
 	public static void viewAllUser(ArrayList<User> userList) {
 	    C206_CaseStudy.setHeader("USER LIST");
-	    String output = String.format("%-10s %-20s %-10s %-15s %-20s\n", "USERNAME", "EMAIL",
+	    String output = String.format("%-10s %-20s %-15s %-15s %-20s\n", "USERNAME", "EMAIL",
 	            "PASSWORD", "CONTACT NUMBER", "ADDRESS");
 	    output += retrieveAllUser(userList);
 	    System.out.println(output);
@@ -231,6 +310,15 @@ public class C206_CaseStudy {
 		}
 		return true;
 	}
+	
+	public static boolean checkAddress(String address) {
+		if (address.trim().isEmpty()) {
+			System.out.println("Address cannot be empty");
+			return false;
+		}
+		return true;
+	}
+	
 	
 
 	
@@ -457,6 +545,478 @@ public class C206_CaseStudy {
 		    servicesList.add(S);
 		    return ADD_SUCCESS2;
 		  }
+		  
+		  //Request
+		    public static void menuRequest() {
+			    C206_CaseStudy.setHeader("Requests");
+			    System.out.println("1. Add Requests");
+			    System.out.println("2. View all Requests");
+			    System.out.println("3. Delete Requests");
+		    }
+		    public static Request inputRequest(ArrayList<Request> requestList) {
+		        int requestID=0;
+		        int userID=0;
+		        String serviceName="";
+		        String projectDescription="";
+		        double budget=0.0;
+		    
+		    
+		    
+		        while (true) {
+		            requestID = Helper.readInt("Enter Request ID > ");
+
+		            if (requestID == 0) {
+		                System.out.println("Request ID cannot be empty.");
+		            } else {
+		                boolean idExists = false;
+		                for (Request existingRequest : requestList) {
+		                    if (existingRequest.getRequestid() == requestID) {
+		                        idExists = true;
+		                        break;
+		                    }
+		                }
+		            
+		                if (idExists) {
+		                    System.out.println("Request ID already exists. Please enter a different ID.");
+		                } else {
+		                    break;
+		                }
+		            }
+		        }
+
+		        while (true) {
+		            userID = Helper.readInt("Enter User ID > ");
+
+		            if (userID == 0) {
+		                System.out.println("User ID cannot be empty.");
+		            } else {
+		                boolean idExists = false;
+		                for (Request existingUser : requestList) {
+		                if (existingUser.getUserId() == userID) {
+		                    idExists = true;
+		                    break;
+		                }
+		            }
+		            
+		            if (idExists) {
+		                System.out.println("User ID already exists. Please enter a different ID.");
+		            } else {
+		                break;
+		            }
+		        }
+		    }
+
+		    while(serviceName.isEmpty()) {
+		    	serviceName=Helper.readString("Enter Service Name > ");
+		    	if(serviceName.isEmpty()) {
+		    		System.out.println("Service Name cannot be empty.");
+		    	}
+		}
+		    while(projectDescription.isEmpty()) {
+		    	projectDescription=Helper.readString("Enter Project Description > ");
+		    	if (projectDescription.isEmpty()) {
+		    		System.out.println("Project Description cannot be empty.");
+		    	}
+		    }
+		    while(budget==0.0) {
+		    	budget=Helper.readDouble("Enter your budget > ");
+		    	if(budget==0.0) {
+		    		System.out.println("Budget cannot be empty.");
+		    	}
+		    }
+		    Date requestDate;
+		    while (true) {
+		        String requestDateStr = Helper.readString("Enter Date Of Request (DD-MM-YYYY) > ");
+		        if (isValidDateFormat(requestDateStr)) {
+		            requestDate = parseDateToDate(requestDateStr, "dd-MM-yyyy");
+		            break;
+		        } else {
+		            System.out.println("Invalid date format. Please enter date in DD-MM-YYYY format.");
+		        }
+		    }
+
+		    Date startDate;
+		    while (true) {
+		        String startDateStr = Helper.readString("Enter Start Date (DD-MM-YYYY) > ");
+		        if (isValidDateFormat(startDateStr)) {
+		            startDate = parseDateToDate(startDateStr, "dd-MM-yyyy");
+		            if (startDate.after(requestDate)) {
+		                break;
+		            } else {
+		                System.out.println("Start date must be later than the request date.");
+		            }
+		        } else {
+		            System.out.println("Invalid date format. Please enter date in DD-MM-YYYY format.");
+		        }
+		    }
+		    
+		    
+		    String requestStatus;
+		    while(true) {
+		    	requestStatus=Helper.readString("Enter Status (Pending/Accepted/Declined) > ");
+		    	if (requestStatus.equalsIgnoreCase("Pending") || requestStatus.equalsIgnoreCase("Accepted")||requestStatus.equalsIgnoreCase("Declined")){
+		    		break;
+		    	}
+		    	else {
+		    		System.out.println("Invalid status. Please enter 'Pending','Accepted' or 'Declined'. ");
+		    	}
+		    }   
+		    Request r = new Request(requestID, userID,serviceName,projectDescription,budget,requestDate,startDate, requestStatus);
+		    return r;
+		}
+		    public static String retrieveAllRequest(ArrayList<Request> requestList) {
+		    String output = String.format("%-15s %-20s %-30s %-20s %-20s %-20s %-20s %-20s\n",
+		            "REQUEST ID", "USER ID", "SERVICE NAME", "PROJECT DESCRIPTION", "BUDGET", "REQUEST DATE", "START DATE", "REQUEST STATUS");
+		    Helper.line(170, "-");
+
+		    SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+
+		    for (int i = 0; i < requestList.size(); i++) {
+		        String formattedRequestDate = dateFormat.format(requestList.get(i).getRequestDate());
+		        String formattedStartDate = dateFormat.format(requestList.get(i).getStartDate());
+
+		        output += String.format("%-15s %-20s %-30s %-20s %-20s %-20s %-20s %-20s\n",
+		                requestList.get(i).getRequestid(),
+		                requestList.get(i).getUserId(),
+		                requestList.get(i).getServiceName(),
+		                requestList.get(i).getProjectdescription(),
+		                requestList.get(i).getBudget(),
+		                formattedRequestDate,
+		                formattedStartDate,
+		                requestList.get(i).getRequestStatus());
+		    }
+		    return output;
+		}
+		    public static void viewAllRequest(ArrayList<Request> requestList) {
+			
+		        C206_CaseStudy.setHeader("REQUEST LIST");
+		        String output=retrieveAllRequest(requestList);
+		        System.out.println(output);
+		}
+		    public static void deleteRequest(ArrayList<Request> requestList, int requestID) {
+		        Request requestToRemove = null;
+		        boolean requestFound = false; // Flag to indicate if the request is found
+		        
+		        for (Request request : requestList) {
+		            if (request.getRequestid() == requestID) {
+		                requestToRemove = request;
+		                requestFound = true;
+		                break;
+		            }
+		        }
+
+		        if (requestFound) {
+		            while (true) {
+		                char confirmToDelete = Character.toLowerCase(Helper.readChar("Are you sure you want to delete? (y/n) > "));
+		                if (confirmToDelete == 'y') {
+		                    requestList.remove(requestToRemove);
+		                    System.out.println("*** Request deleted ***");
+		                    break; 
+		                } else if (confirmToDelete == 'n') {
+		                    System.out.println("Deletion of Request has been cancelled.");
+		                    break; 
+		                } else {
+		                    System.out.println("Invalid input. Please enter 'y' or 'n'.");
+		                }
+		            }
+		        } else {
+		            System.out.println("Request with the specified request ID not found.");
+		            
+		            
+		            int newRequestID = Helper.readInt("Please enter the request ID again> ");
+		            deleteRequest(requestList, newRequestID); // Recursively call deleteRequest
+		        }
+		    }
+
+
+		public static final int ADD_INVALID_REQUESTID = 0;
+		public static final int ADD_INVALID_USERID=1;
+
+
+		public static int addRequest(ArrayList<Request> requestList, Request r) {
+		    for(Request request:requestList) {
+		    	if(request.getRequestid()==r.getRequestid()) {
+		    		return ADD_INVALID_REQUESTID;
+		    	}
+		    }
+		    for(Request user:requestList) {
+		    	if(user.getUserId()==r.getUserId()) {
+		    		return ADD_INVALID_USERID;
+		    	}
+		    }
+		requestList.add(r);
+		return ADD_SUCCESS;
+		}
+		public static void menuAppointment() {
+			C206_CaseStudy.setHeader("Appointments");
+			System.out.println("1. Add Appointments");
+			System.out.println("2. View all Appointments");
+			System.out.println("3. Delete Apointments");
+		}
+		public static Appointment inputAppointment(ArrayList<Appointment> appointmentList) {
+		    int appointmentID=0;
+		    int userID=0;
+		    int serviceProviderID=0;
+		    String additionalDetails="";
+		    String appointmentStatus="";
+		        
+		    while(true){
+		        appointmentID = Helper.readInt("Enter Appointment ID > ");
+
+		        if (appointmentID == 0) {
+		            System.out.println("Appointment ID cannot be empty.");
+		        } else {
+		            boolean idExists = false;
+		            for (Appointment existingAppointment : appointmentList) {
+		                if (existingAppointment.getAppointmentid() == appointmentID) {
+		                    idExists = true;
+		                    break;
+		                }
+		            }
+		            
+		            if (idExists) {
+		                System.out.println("Appointment ID already exists. Please enter a different ID.");
+		            } else {
+		                break;
+		  
+		            }
+		    	}
+		    }
+		    
+		   while(true){
+		       userID = Helper.readInt("Enter User ID > ");
+
+		       if (userID == 0) {
+		           System.out.println("User ID cannot be empty.");
+		       } else {
+		           boolean idExists = false;
+		           for (Appointment existingUser : appointmentList) {
+		               if (existingUser.getUserId() == userID) {
+		                   idExists = true;
+		                   break;
+		               }
+		           }
+		           
+		           if (idExists) {
+		               System.out.println("User ID already exists. Please enter a different ID.");
+		           } else {
+		               break;
+		 
+		           }
+		   	}
+		   }
+		   
+		  while(true){
+		      serviceProviderID = Helper.readInt("Enter Service Provider ID > ");
+
+		      if (serviceProviderID == 0) {
+		          System.out.println("Service Provider ID cannot be empty.");
+		      } else {
+		          boolean idExists = false;
+		          for (Appointment existingServiceProvider : appointmentList) {
+		              if (existingServiceProvider.getServiceproviderId() == serviceProviderID) {
+		                  idExists = true;
+		                  break;
+		              }
+		          }
+		          
+		          if (idExists) {
+		              System.out.println("Service Provider ID already exists. Please enter a different ID.");
+		          } else {
+		              break;
+
+		          }
+		  	}
+		  }
+		    
+		    while(additionalDetails.isEmpty()) {
+		    	additionalDetails=Helper.readString("Enter Additional Details > ");
+		    	if (additionalDetails.isEmpty()) {
+		    		System.out.println("Additional Details cannot be empty. ");
+		    	}
+		    }
+		    Date appointmentDate = null;
+		    while (true) {
+		        String appointmentDateStr = Helper.readString("Enter Date Of Appointment (DD-MM-YYYY) > ");
+		        if (isValidDateFormat(appointmentDateStr)) {
+		            appointmentDate = parseDateToDate(appointmentDateStr, "dd-MM-yyyy");
+		            break;
+		        } else {
+		            System.out.println("Invalid date format. Please enter date in DD-MM-YYYY format.");
+		        }
+		    }
+		    Date appointmentTime = null;
+		    while (true) {
+		        String appointmentTimeStr = Helper.readString("Enter Time Of Appointment (HH:mm a) > ");
+		        if (isValidTimeFormat(appointmentTimeStr)) {
+		            appointmentTime = parseTimeToDate(appointmentTimeStr, "hh:mm a");
+		            break;
+		        } else {
+		            System.out.println("Invalid time format. Please enter time in HH:mm AM/PM format.");
+		        }
+		    }
+
+		    
+		  
+		   
+		    while(true) {
+		    	appointmentStatus=Helper.readString("Enter Appointment Status (Pending/Accepted/Declined) > ");
+		    	if (appointmentStatus.equalsIgnoreCase("Pending") || appointmentStatus.equalsIgnoreCase("Accepted") || appointmentStatus.equalsIgnoreCase("Declined")){
+		    		break;
+		    	}
+		    	else {
+		    		System.out.println("Invalid Appointment Status. Please enter 'Pending' , 'Accepted' or 'Declined'. ");
+		    	}
+		    }
+		   
+		    
+		    Appointment a = new Appointment(appointmentID, userID,serviceProviderID,additionalDetails,appointmentDate,appointmentTime,appointmentStatus );
+		    return a;
+		  }
+		  public static String retrieveAllAppointment(ArrayList<Appointment> appointmentList) {
+		       String output = String.format("%-15s %-20s %-30s %-20s %-20s %-20s\n",
+		            "APPOINTMENT ID", "USER ID", "SERVICE PROVIDER ID", "ADDITIONAL DETAILS", "DATE", "TIME");
+
+		       SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+		    
+		       for (int i = 0; i < appointmentList.size(); i++) {
+		           String formattedDate = dateFormat.format(appointmentList.get(i).getAppointmentDate());
+		           String formattedTime = new SimpleDateFormat("hh:mm a").format(appointmentList.get(i).getAppointmentTime());
+
+		           output += String.format("%-15s %-20s %-30s %-20s %-20s %-20s\n",
+		                appointmentList.get(i).getAppointmentid(),
+		                appointmentList.get(i).getUserId(),
+		                appointmentList.get(i).getServiceproviderId(),
+		                appointmentList.get(i).getAdditionalDetails(),
+		                formattedDate,
+		                formattedTime,
+		                appointmentList.get(i).getAppointmentStatus());
+		    }
+		        return output;
+		}
+		 
+		   
+		 
+		  
+		    public static void viewAllAppointment(ArrayList<Appointment> appointmentList) {
+			
+		        C206_CaseStudy.setHeader("APPOINTMENT LIST");
+		    
+		        String output = retrieveAllAppointment(appointmentList);
+		        System.out.println(output);
+		}
+		    
+		    public static void deleteAppointment(ArrayList<Appointment> appointmentList, int appointmentID) {
+		    	 Appointment appointmentToRemove = null;
+		         boolean appointmentFound = false; 
+		         
+		         for (Appointment a : appointmentList) {
+		             if (a.getAppointmentid() == appointmentID) {
+		                 appointmentToRemove = a;
+		                 appointmentFound = true;
+		                 break;
+		             }
+		         }
+
+		         if (appointmentFound) {
+		             while (true) {
+		                 char confirmToDelete = Character.toLowerCase(Helper.readChar("Are you sure you want to delete? (y/n) > "));
+		                 if (confirmToDelete == 'y') {
+		                     appointmentList.remove(appointmentToRemove);
+		                     System.out.println("*** Appointment deleted ***");
+		                     break; 
+		                 } else if (confirmToDelete == 'n') {
+		                     System.out.println("Deletion of Appointment has been cancelled.");
+		                     break; 
+		                 } else {
+		                     System.out.println("Invalid input. Please enter 'y' or 'n'.");
+		                 }
+		             }
+		         } else {
+		             System.out.println("Appointment with the specified appointment ID not found.");
+		             
+		             
+		             int newAppointmentID = Helper.readInt("Please enter the appointment ID again> ");
+		             deleteAppointment(appointmentList, newAppointmentID); // Recursively call deleteRequest
+		         }
+		     }
+		   
+		    public static final int ADD_INVALID_APPOINTMENTID = 1;
+		    public static final int ADD_INVALID_SERVICEPROVIDERID=2;
+		    		
+
+
+		    public static int addAppointment(ArrayList<Appointment> appointmentList, Appointment a) {
+		        for(Appointment appointment:appointmentList) {
+		    	    if(appointment.getAppointmentid()==a.getAppointmentid()) {
+		    		    return ADD_INVALID_APPOINTMENTID;
+		    	}
+		    }
+		        for(Appointment user:appointmentList) {
+		        	if(user.getUserId()== a.getUserId()) {
+		        		return ADD_INVALID_USERID;
+		        	}
+		        	
+		        }
+		        	
+		        for(Appointment serviceProvider:appointmentList) {
+		        	if(serviceProvider.getServiceproviderId()==a.getServiceproviderId()) {
+		        		return ADD_INVALID_SERVICEPROVIDERID;
+		        	}
+		        	
+		        }
+		    
+		         appointmentList.add(a);
+		         return ADD_SUCCESS;
+		}
+		    
+		    public static boolean isValidDateFormat(String date) {
+		        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+		        dateFormat.setLenient(false); // Strict parsing
+		    try {
+		        dateFormat.parse(date);
+		        return true;
+		    } catch (ParseException e) {
+		        return false;
+		    }
+		}
+		    public static boolean isValidTimeFormat(String time) {
+		        SimpleDateFormat timeFormat = new SimpleDateFormat("hh:mm a");
+		        timeFormat.setLenient(false); // Strict parsing
+
+		        try {
+		            timeFormat.parse(time);
+		            return true;
+		        } catch (ParseException e) {
+		            return false;
+		        }
+		}
+		    public static Date parseTimeToDate(String timeString, String format) {
+		        SimpleDateFormat formatter = new SimpleDateFormat(format);
+		        try {
+		            return formatter.parse(timeString);
+		        } catch (ParseException e) {
+		            return null;
+		        }
+		    }
+		    public static Date parseDateToDate(String dateString, String format) {
+		        SimpleDateFormat formatter = new SimpleDateFormat(format);
+		        try {
+		            return formatter.parse(dateString);
+		        } catch (ParseException e) {
+		            return null;
+		        }
+		    }
+		    public static LocalTime parseTimeToLocalTime(String timeString, String format) {
+		        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(format);
+		        return LocalTime.parse(timeString, formatter);
+		    }
+		    
+
+		    public static boolean isValidPhoneNumber(int phoneNumber) {
+		        String phoneNumberStr = Integer.toString(phoneNumber);
+		        return phoneNumberStr.matches("[89]\\d{7}");
+		}
 	 
 }
 
