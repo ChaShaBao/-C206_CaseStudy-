@@ -159,6 +159,16 @@ public class C206_CaseStudyTest {
 	    public void testCheckEmail_InvalidEmail() {
 	        assertFalse(C206_CaseStudy.checkEmail("invalidemail"));
 	    }
+	    
+	    @Test
+	    public void testAddress_Valid() {
+	    	assertTrue(C206_CaseStudy.checkAddress("Jurong"));
+	    }
+	    @Test 
+	    public void testAddress_EmptyAddress() {
+	    	assertFalse(C206_CaseStudy.checkAddress(""));
+	    }
+	    
 	    @Test
 	    public void testDeleteUser() {
 	        // Creating a list of User objects for testing
