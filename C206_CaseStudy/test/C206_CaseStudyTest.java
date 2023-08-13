@@ -110,8 +110,8 @@ public class C206_CaseStudyTest {
 	      userList.add(new User("Jerry", "Jerry@myrp.edu.sg", "123", 92092910, "Jurong East"));	      
 	      // Creating a formatted test output
 	      testOutput = "";
-	      testOutput += String.format("%-10s %-20s %-10s %-15d %-20s\n", "Tom", "Tom@myrp.edu.sg", "123", 92012910, "Jurong West");
-	      testOutput += String.format("%-10s %-20s %-10s %-15d %-20s\n", "Jerry", "Jerry@myrp.edu.sg", "123", 92092910, "Jurong East");	      
+	      testOutput += String.format("%-10s %-20s %-15s %-15d %-20s\n", "Tom", "Tom@myrp.edu.sg", "123", 92012910, "Jurong West");
+	      testOutput += String.format("%-10s %-20s %-15s %-15d %-20s\n", "Jerry", "Jerry@myrp.edu.sg", "123", 92092910, "Jurong East");	      
 	      // Calling the retrieveAllUser method with the populated userList
 	      allUser = C206_CaseStudy.retrieveAllUser(userList);	      
 	      // Asserting that the displayed output matches the expected testOutput

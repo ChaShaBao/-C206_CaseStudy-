@@ -319,7 +319,40 @@ public class C206_CaseStudy {
 		return true;
 	}
 	
+	public static boolean checkPassword(String password) {
+	    
+	    if (password.length() < 8) {
+	        System.out.println("Password must be at least 8 characters long");
+	        return false;
+	    }
+
+	   
+	    if (!password.matches(".*[A-Z].*")) {
+	        System.out.println("Password must contain at least one uppercase letter");
+	        return false;
+	    }
+
+	   
+	    if (!password.matches(".*[a-z].*")) {
+	        System.out.println("Password must contain at least one lowercase letter");
+	        return false;
+	    }
+
+
+	    
+	    return true;
+	}
 	
+	public static boolean checkEmail(String email) {
+		if (email.trim().isEmpty()) {
+			System.out.println("Email cannot be empty");
+			return false;
+		} else if (!email.trim().contains("@")) {
+			System.out.println("Invalid Email");
+			return false;
+		}
+		return true;
+	}
 
 	
 //-------------------------------------------------------------------------------------------------------------------------------
@@ -395,16 +428,7 @@ public class C206_CaseStudy {
 		return true;
 	}
 	
-	public static boolean checkEmail(String email) {
-		if (email.trim().isEmpty()) {
-			System.out.println("Email cannot be empty");
-			return false;
-		} else if (!email.trim().contains("@")) {
-			System.out.println("Invalid Email");
-			return false;
-		}
-		return true;
-	}
+	
 	
 	public static boolean checkNumber(int number) {
 		String numberString = Integer.toString(number);
@@ -415,29 +439,7 @@ public class C206_CaseStudy {
 	    return true;
 	}
 	
-	public static boolean checkPassword(String password) {
-	    
-	    if (password.length() < 8) {
-	        System.out.println("Password must be at least 8 characters long");
-	        return false;
-	    }
 
-	   
-	    if (!password.matches(".*[A-Z].*")) {
-	        System.out.println("Password must contain at least one uppercase letter");
-	        return false;
-	    }
-
-	   
-	    if (!password.matches(".*[a-z].*")) {
-	        System.out.println("Password must contain at least one lowercase letter");
-	        return false;
-	    }
-
-
-	    
-	    return true;
-	}
 	 public void simulateUserInput(String input) {
 	        InputStream in = new ByteArrayInputStream(input.getBytes());
 	        System.setIn(in);
