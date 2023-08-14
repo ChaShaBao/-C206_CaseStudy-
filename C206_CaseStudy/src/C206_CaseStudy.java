@@ -876,8 +876,8 @@ public class C206_CaseStudy {
 		    return a;
 		  }
 		  public static String retrieveAllAppointment(ArrayList<Appointment> appointmentList) {
-		       String output = String.format("%-15s %-20s %-30s %-20s %-20s %-20s\n",
-		            "APPOINTMENT ID", "USER ID", "SERVICE PROVIDER ID", "ADDITIONAL DETAILS", "DATE", "TIME");
+		       String output = String.format("%-15s %-20s %-30s %-20s %-20s %-20s %-20s\n",
+		            "APPOINTMENT ID", "USER ID", "SERVICE PROVIDER ID", "ADDITIONAL DETAILS", "DATE", "TIME","APPOINTMENT STATUS");
 
 		       SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 		    
@@ -885,7 +885,7 @@ public class C206_CaseStudy {
 		           String formattedDate = dateFormat.format(appointmentList.get(i).getAppointmentDate());
 		           String formattedTime = new SimpleDateFormat("hh:mm a").format(appointmentList.get(i).getAppointmentTime());
 
-		           output += String.format("%-15s %-20s %-30s %-20s %-20s %-20s\n",
+		           output += String.format("%-15s %-20s %-30s %-20s %-20s %-20s %-20s\n",
 		                appointmentList.get(i).getAppointmentid(),
 		                appointmentList.get(i).getUserId(),
 		                appointmentList.get(i).getServiceproviderId(),
