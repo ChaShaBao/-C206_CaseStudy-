@@ -1,6 +1,8 @@
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 import java.text.SimpleDateFormat;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -17,7 +19,10 @@ public class C206_CaseStudy {
     ArrayList<Request> requestList = new ArrayList<Request>();
     ArrayList<Appointment> appointmentList = new ArrayList<Appointment>();
     
-    
+  //Test Service Provider
+  		spList.add(new ServiceProvider("Nigro", "black@", 12345678, "nigeria"));
+  		// test for quotes
+  		quotesList.add(new Quote(12345, spList.get(0),"qwerty","01/01/2000",100.00));
     
     //testForUser 
     userList.add(new User("Tom", "Tom@myrp.edu.sg","123",92012910,"Jurong West"));
@@ -58,38 +63,49 @@ public class C206_CaseStudy {
     		}
     	
     	} else if (choice == 2) {
-    		SPMenu(spList);
-    		int b = Helper.readInt("Enter an option > ");
-    		if (b == 1) {
-    			SPAdd(spList);	
-    		} else if (b == 2) {
-    			SPView(spList);
-    		} else if (b == 3) {
-    			SPDel(spList);
-    		}
+			SPMenu(spList);
+			int b = Helper.readInt("Enter an option > ");
+			if (b == 1) {
+				SPAdd(spList);
+			} else if (b == 2) {
+				SPView(spList);
+			} else if (b == 3) {
+				SPDel(spList);
+			}
     	} else if (choice == 3) {
-            C206_CaseStudy.menuService();
-            int c = Helper.readInt("Enter an option> ");
-            if (c == 1) {
-              Service s = inputService(servicesList);
-              int status = C206_CaseStudy.addService(servicesList, s);
-              if (status == C206_CaseStudy.ADD_SUCCESS2) {
-                System.out.println("*** Service added successfully ***");
+			C206_CaseStudy.menuService();
+			int c = Helper.readInt("Enter an option> ");
+			if (c == 1) {
+				Service s = inputService(servicesList);
+				int status = C206_CaseStudy.addService(servicesList, s);
+				if (status == C206_CaseStudy.ADD_SUCCESS2) {
+					System.out.println("*** Service added successfully ***");
 
-              } else if (status == C206_CaseStudy.ADD_INVALID_SERVICE1) {
-                System.out.println("INVALID SERVICE: Invalid service name format. ");
+				} else if (status == C206_CaseStudy.ADD_INVALID_SERVICE1) {
+					System.out.println("INVALID SERVICE: Invalid service name format. ");
 
-              }
+				}
 
-            } else if (c == 2) {
-              System.out.println(C206_CaseStudy.viewAllService(servicesList));
+			} else if (c == 2) {
+				System.out.println(C206_CaseStudy.viewAllService(servicesList));
 
-            } else if (c == 3) {
-              String serviceToDelete = Helper.readString("Enter the name of the service to delete: ");
-              C206_CaseStudy.deleteService(servicesList, serviceToDelete);
-            } else {
-              System.out.println("INVALID OPTION");
-            }
+			} else if (c == 3) {
+				String serviceToDelete = Helper.readString("Enter the name of the service to delete: ");
+				C206_CaseStudy.deleteService(servicesList, serviceToDelete);
+			} else {
+				System.out.println("INVALID OPTION");
+			}
+    	} else if (choice == 4) {
+			quotemenu(quotesList);
+			int ch = Helper.readInt("Enter an option > ");
+			if (ch == 1) {
+				viewAllquote(quotesList);
+			} else if (ch == 2) {
+				addQuote(quotesList, spList);
+			} else if (ch == 3) {
+				deleteQuote(quotesList);
+			}
+    	
     	}else if (choice == 5) {
     		C206_CaseStudy.menuRequest();
     		int e = Helper.readInt("Enter an option > ");
@@ -365,15 +381,15 @@ public class C206_CaseStudy {
 		Helper.line(30, "-");
 		System.out.println("1. Add Service Provider\n2. View All Service Provider\n3. Delete User");
 	}
-	
+
 	public static void SPAdd(ArrayList<ServiceProvider> spList) {
 		String SPName = Helper.readString("Enter Service Provider Name > ");
-		while (!checkSPName(spList, SPName)){
+		while (!checkSPName(spList, SPName)) {
 			SPName = Helper.readString("Enter Service Provider Name > ");
 		}
 		String SPEmail = Helper.readString("Enter Email > ");
 		while (!checkEmail(SPEmail)) {
-			
+
 			SPEmail = Helper.readString("Enter Email > ");
 		}
 		int SPNo = Helper.readInt("Enter Contact Number > ");
@@ -388,9 +404,9 @@ public class C206_CaseStudy {
 		} else {
 			System.out.println("Adding Failed");
 		}
-			
-		}
-	
+
+	}
+
 	public static void SPView(ArrayList<ServiceProvider> spList) {
 		Helper.line(30, "-");
 		System.out.println("SERVICE PROVIDER LIST");
@@ -398,10 +414,11 @@ public class C206_CaseStudy {
 		System.out.println("");
 		System.out.println(String.format("%-10s %-20s %-10s %s\n", "NAME", "EMAIL", "CONTACT", "ADDRESS"));
 		for (ServiceProvider i : spList) {
-			System.out.println(String.format("%-10s %-20s %-10d %s\n", i.getName(),i.getEmail(),i.getContactNumber(),i.getBusinessAddress()));
+			System.out.println(String.format("%-10s %-20s %-10d %s\n", i.getName(), i.getEmail(), i.getContactNumber(),
+					i.getBusinessAddress()));
 		}
 	}
-	
+
 	public static void SPDel(ArrayList<ServiceProvider> spList) {
 		String delname = Helper.readString("Enter service provider name to delete > ");
 		boolean rmv = false;
@@ -417,7 +434,7 @@ public class C206_CaseStudy {
 			System.out.println("Service Provider Not Found");
 		}
 	}
-		
+
 	public static boolean checkSPName(ArrayList<ServiceProvider> spList, String name) {
 		for (ServiceProvider i : spList) {
 			if (i.getName().equalsIgnoreCase(name)) {
@@ -427,126 +444,247 @@ public class C206_CaseStudy {
 		}
 		return true;
 	}
+
 	
-	
-	
+
 	public static boolean checkNumber(int number) {
 		String numberString = Integer.toString(number);
 		if (numberString.length() != 8) {
-	    	System.out.println("Invalid Number");
-	    	return false;
-	    }
-	    return true;
+			System.out.println("Invalid Number");
+			return false;
+		}
+		return true;
 	}
+
 	
 
-	 public void simulateUserInput(String input) {
-	        InputStream in = new ByteArrayInputStream(input.getBytes());
-	        System.setIn(in);
-	    }
+	public void simulateUserInput(String input) {
+		InputStream in = new ByteArrayInputStream(input.getBytes());
+		System.setIn(in);
+	}
 	 //----------------------------------------------
 	 //Services 
 	 
 	 public static void menuService() {
-		    C206_CaseStudy.setHeader("Services");
-		    System.out.println("1. Add Services");
-		    System.out.println("2. View all Services");
-		    System.out.println("3. Delete Services");
-		  }
+			C206_CaseStudy.setHeader("Services");
+			System.out.println("1. Add Services");
+			System.out.println("2. View all Services");
+			System.out.println("3. Delete Services");
+		}
 
-		  public static Service inputService(ArrayList<Service> servicesList) {
-		    String service = "";
-		    String description = "";
-		    double price = 0.0;
-		    while (service.isEmpty()) {
-		      service = Helper.readString("Enter Service name > ");
-		      if (service.isEmpty()) {
-		        System.out.println("Service Name cannot be empty > ");
-		      }
-		    }
-		    while (description.isEmpty()) {
-		      description = Helper.readString("Enter Description > ");
-		      if (description.isEmpty()) {
-		        System.out.println("Description cannot be empty > ");
-		      }
-		    }
-		    while (price == 0.0) {
-		      price = Helper.readDouble("Enter price >$ ");
-		      if (price == 0.0) {
-		        System.out.println("Price cannot be empty. ");
-		      }
-		    }
+		public static Service inputService(ArrayList<Service> servicesList) {
+			String service = "";
+			String description = "";
+			double price = 0.0;
+			while (true) {
+		        service = Helper.readString("Enter Service Name > ");
 
-		    Service s = new Service(service, description, price);
-		    return s;
-		  }
-
-		  public static String retrieveAllService(ArrayList<Service> servicesList) {
-		    String output = "";
-		 
-		    for (int i = 0; i < servicesList.size(); i++) {
-
-		output += String.format("%-20s %-30s %-15s\n", servicesList.get(i).getServiceName(),
-		          servicesList.get(i).getDescription(), "$" + servicesList.get(i).getPrice());
-
-		    }
-		    return output;
-		  }
-
-		  public static String viewAllService(ArrayList<Service> servicesList) {
-		    C206_CaseStudy.setHeader("SERVICE LIST");
-		    String output = String.format("%-20s %-30s %-15s\n", "SERVICE NAME", "DESCRIPTION", "PRICE");
-		    output += retrieveAllService(servicesList);
-		    //System.out.println(output);
-		    return output;
-		  }
-
-		  public static void deleteService(ArrayList<Service> servicesList, String serviceName) {
-		    Service serviceToRemove = null;
-		    for (Service S : servicesList) {
-		      if (S.getServiceName().equalsIgnoreCase(serviceName)) {
-		        //servicesList.remove(S);
-		        char confirmtoDelete = Character.toLowerCase(Helper.readChar("Confirm to delete? (y/n) > "));
-		        if (confirmtoDelete == 'y') {
-		          serviceToRemove = S;
-		          servicesList.remove(S);
-
-		          break;
-		        } else if (confirmtoDelete == 'n') {
-		          System.out.println("Deletion has been cancelled.");
-		          return;
+		        if (service.trim().isEmpty()) {
+		            System.out.println("Service Name cannot be empty.");
 		        } else {
-		          System.out.println("Invalid input. Please enter 'y' or 'n'.");
+		            boolean isDuplicate = false;
+		            isDuplicate = checkinput(servicesList, service, isDuplicate);
+		            
+		            if (isDuplicate) {
+		                System.out.println("THE SERVICE NAME ALREADY EXIST");
+		            } else {
+		                break;
+		            }
 		        }
-		      }
 		    }
+			while (service.isEmpty()) {
+				service = Helper.readString("Enter Service name > ");
+				if (service.isEmpty()) {
+					System.out.println("Service Name cannot be empty > ");
+				}
+			}
+			while (description.isEmpty()) {
+				description = Helper.readString("Enter Description > ");
+				if (description.isEmpty()) {
+					System.out.println("Description cannot be empty > ");
+				}
+			}
+			while (price == 0.0) {
+				price = Helper.readDouble("Enter price >$ ");
+				if (price == 0.0) {
+					System.out.println("Price cannot be empty. ");
+				}
+			}
 
-		    if (serviceToRemove != null) {
-		      servicesList.remove(serviceToRemove);
-		      System.out.println("*** Service deleted ***");
-		    } else {
-		      System.out.println("Service with the specified name not found.");
-		    }
-		  }
+			Service s = new Service(service, description, price);
+			return s;
+		}
 
-		  public static final int ADD_SUCCESS2 = 0;
-		  public static final int ADD_INVALID_SERVICE1 = 1;
+		public static boolean checkinput(ArrayList<Service> servicesList, String service, boolean isDuplicate) {
+			for (Service services : servicesList) {
+			    if (services.getServiceName().equalsIgnoreCase(service.trim())) {
+			        isDuplicate = true;
+			        break;
+			    }
+			}
+			return isDuplicate;
+		}
 
-		  public static int addService(ArrayList<Service> servicesList, Service S) {
-		    String trimmedServiceName = S.getServiceName().trim();
+		public static String retrieveAllService(ArrayList<Service> servicesList) {
+			String output = "";
 
-		    if (trimmedServiceName.isEmpty()) {
-		      return ADD_INVALID_SERVICE1;
+			for (int i = 0; i < servicesList.size(); i++) {
 
-		    }
-		    for (Service s : servicesList) {
-		      if (s.getServiceName().equalsIgnoreCase(trimmedServiceName)) {
-		        return ADD_INVALID_SERVICE1;
-		      }
-		    }
-		    servicesList.add(S);
-		    return ADD_SUCCESS2;
-		  }
+				output += String.format("%-20s %-30s %-15s\n", servicesList.get(i).getServiceName(),
+						servicesList.get(i).getDescription(), "$" + servicesList.get(i).getPrice());
+
+			}
+			return output;
+		}
+
+		public static String viewAllService(ArrayList<Service> servicesList) {
+			C206_CaseStudy.setHeader("SERVICE LIST");
+			String output = String.format("%-20s %-30s %-15s\n", "SERVICE NAME", "DESCRIPTION", "PRICE");
+			output += retrieveAllService(servicesList);
+			// System.out.println(output);
+			return output;
+		}
+
+		public static void deleteService(ArrayList<Service> servicesList, String serviceName) {
+			Service serviceToRemove = null;
+			for (Service S : servicesList) {
+				if (S.getServiceName().equalsIgnoreCase(serviceName)) {
+					// servicesList.remove(S);
+					char confirmtoDelete = Character.toLowerCase(Helper.readChar("Confirm to delete? (y/n) > "));
+					if (confirmtoDelete == 'y') {
+						serviceToRemove = S;
+						servicesList.remove(S);
+
+						break;
+					} else if (confirmtoDelete == 'n') {
+						System.out.println("Deletion has been cancelled.");
+						return;
+					} else {
+						System.out.println("Invalid input. Please enter 'y' or 'n'.");
+					}
+				}
+			}
+
+			if (serviceToRemove != null) {
+				servicesList.remove(serviceToRemove);
+				System.out.println("*** Service deleted ***");
+			} else {
+				System.out.println("Service with the specified name not found.");
+			}
+		}
+
+		public static final int ADD_SUCCESS2 = 0;
+		public static final int ADD_INVALID_SERVICE1 = 1;
+
+		public static int addService(ArrayList<Service> servicesList, Service S) {
+			String trimmedServiceName = S.getServiceName().trim();
+
+			if (trimmedServiceName.isEmpty()) {
+				return ADD_INVALID_SERVICE1;
+
+			}
+			for (Service s : servicesList) {
+				if (s.getServiceName().equalsIgnoreCase(trimmedServiceName)) {
+					return ADD_INVALID_SERVICE1;
+				}
+			}
+			servicesList.add(S);
+			return ADD_SUCCESS2;
+		}
+		
+		//Quotes
+		
+		public static void quotemenu(ArrayList<Quote> quotesList) {
+			Helper.line(30, "-");
+			System.out.println("QUOTES");
+			Helper.line(30, "-");
+			System.out.println("1. View All Quotes\n2. Add New Quote\n3. Delete Quotes");
+		}
+
+		public static void viewAllquote(ArrayList<Quote> quotesList) {
+			Helper.line(30, "-");
+			System.out.println(String.format("%-10s %-20s %-10s %-15s %s", "Quote ID", "Service Provider", "Description",
+					"Response Date", "Price"));
+			for (Quote i : quotesList) {
+				System.out.println(String.format("%-10s %-20s %-10s %-15s %.2f\n", i.getQuoteId(),
+						i.getServiceprovider().getName(), i.getDescription(), i.getresponseDate(), i.getPrice()));
+			}
+		}
+
+		public static void addQuote(ArrayList<Quote> quotesList, ArrayList<ServiceProvider> spList) {
+			int quoteID = Helper.readInt("Enter Quote ID > ");
+			while (!checkQuoteID(quotesList, quoteID)) {
+				quoteID = Helper.readInt("Enter Quote ID > ");
+			}
+			ServiceProvider x = null;
+			boolean found = false;
+
+			while (!found) {
+				String sp = Helper.readString("Enter Service Provider Name > ");
+				for (ServiceProvider i : spList) {
+					if (i.getName().equalsIgnoreCase(sp)) {
+						x = i;
+						found = true;
+					}
+				}
+				if (found) {
+					break;
+				} else {
+					System.out.println("That Service Provider Does Not Exist");
+				}
+			}
+			String desc = Helper.readString("Enter Description > ");
+			String responsedate = Helper.readString("Enter Response Date (DD/MM/YYYY) > ");
+			while (!checkDate(responsedate)) {
+				responsedate = Helper.readString("Enter Response Date (DD/MM/YYYY) > ");
+			}
+			double price = Helper.readDouble("Enter price > ");
+			boolean success = quotesList.add(new Quote(quoteID, x, desc, responsedate, price));
+			if (success) {
+				System.out.println("Quote Created Successfully!");
+			} else {
+				System.out.println("Failed To Create Quote.");
+			}
+		}
+
+		public static void deleteQuote(ArrayList<Quote> quotesList) {
+			boolean found = false;
+			int quoteid = Helper.readInt("Please enter quote ID > ");
+
+			for (Quote quote : quotesList) {
+				if (quote.getQuoteId() == quoteid) {
+					quotesList.remove(quote);
+					found = true;
+					break;
+				}
+			}
+			if (found) {
+				System.out.println("*** quote deleted ***");
+			} else {
+				System.out.println("quote with the specified id not found.");
+			}
+		}
+		
+		public static boolean checkQuoteID(ArrayList<Quote> quotesList, int id) {
+			for (Quote q : quotesList) {
+				if (q.getQuoteId() == id) {
+					System.out.println("Quote ID is already in use.");
+					return false;
+				}
+			}
+			return true;
+		}
+		
+		public static boolean checkDate(String date) {
+	        String dateP = "^(0?[1-9]|[12][0-9]|3[01])/(0?[1-9]|1[0-2])/\\d{4}$";
+	        Pattern p = Pattern.compile(dateP);
+	        Matcher m = p.matcher(date);
+	        if (m.matches()) {
+	        	return true;
+	        }
+	        System.out.println("Invalid date format");
+	        return false;
+	    }
 		  
 		  //Request
 		    public static void menuRequest() {
