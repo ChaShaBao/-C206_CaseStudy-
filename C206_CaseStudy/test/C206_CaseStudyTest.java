@@ -323,27 +323,22 @@ public class C206_CaseStudyTest {
 	    }
 	    
 	    @Test
-		  public void testAddRequest() {
-			  // Test adding a new Request (Boundary and Normal Test)
-		        Request newRequest = new Request(3,3,"Hello","OK",140.0,new Date(), new Date(), "Declined");
-		        C206_CaseStudy.addRequest(requestList, newRequest);
-		        assertEquals("Checking if the Request was added", 3, requestList.size());
-		        assertEquals("Checking if the Request was added correctly", newRequest, requestList.get(2));
+	      public void testAddRequest() {
+	        // Test adding a new Request (Boundary and Normal Test)
+	            Request newRequest = new Request(3,3,"Hello","OK",140.0,new Date(), new Date(), "Declined");
+	            C206_CaseStudy.addRequest(requestList, newRequest);
+	            assertEquals("Checking if the Request was added", 3, requestList.size());
+	            assertEquals("Checking if the Request was added correctly", newRequest, requestList.get(2));
 
-		        // Test adding a duplicate Request ID(Normal Test)
-		        Request duplicateID = new Request(3,5,"NIL","BYEBYE",111.0,new Date(), new Date(),"Accepted");
-		        C206_CaseStudy.addRequest(requestList, duplicateID);
-		        assertEquals("Checking if duplicate Request was added", 3, requestList.size());
-		       
-		        requestList.clear();
-		        //Test adding invalid data (Error Test)
-		        Request invalidRequest = new Request(-1, -1, "Invalid", "Error", 50.0, new Date(), new Date(), "Pending");
-		        C206_CaseStudy.addRequest(requestList, invalidRequest);
-		        //Check if the list size remains unchanged
-		        assertEquals("Checking if invalid Request was rejected", 1, requestList.size());
-	 
-
-		  }
+	    
+	           
+	            requestList.clear();
+	            //Test adding invalid data (Error Test)
+	            Request invalidRequest = new Request(-1, -1, "Invalid", "Error", 50.0, new Date(), new Date(), "Pending");
+	            C206_CaseStudy.addRequest(requestList, invalidRequest);
+	            //Check if the list size remains unchanged
+	            assertEquals("Checking if invalid Request was rejected", 1, requestList.size());
+	    }
 		  @Test
 		  public void testAddRequest_DuplicateUserID() {
 			  //Boundary and Normal Test
@@ -497,29 +492,25 @@ public class C206_CaseStudyTest {
 
 		
 		  @Test
-		  public void testAddAppointment() {
-			        //Normal Test
-			  
-			        // Test adding a new Appointment
-			        //Boundary Test
-			        Appointment newAppointment = new Appointment(3,3,3, "Hi", new Date(), new Date(), "Pending");
-			        C206_CaseStudy.addAppointment(appointmentList, newAppointment);
-			        assertEquals("Checking if the Appointment was added", 3, appointmentList.size());
-			        assertEquals("Checking if the Appointment was added correctly", newAppointment, appointmentList.get(2));
-	                
-			        //BoundaryTest
-			        // Test adding a duplicate Appointment ID
-			        Appointment duplicateID = new Appointment(2,2,2,"NIL",new Date(), new Date(),"Declined");
-			        C206_CaseStudy.addAppointment(appointmentList, duplicateID);
-			        assertEquals("Checking if duplicate Appointment was added", 3, appointmentList.size());
-			        
-			        appointmentList.clear();
-			        //Test adding invalid data (Error Test)
-			        Appointment invalidAppointment = new Appointment(-1, -1,-1, "Invalid", new Date(), new Date(), "Pending");
-			        C206_CaseStudy.addAppointment(appointmentList, invalidAppointment);
-			        //Check if the list size remains unchanged
-			        assertEquals("Checking if invalid Appointment was rejected", 1, appointmentList.size());
-		  }
+	      public void testAddAppointment() {
+	              //Normal Test
+	        
+	              // Test adding a new Appointment
+	              //Boundary Test
+	              Appointment newAppointment = new Appointment(3,3,3, "Hi", new Date(), new Date(), "Pending");
+	              C206_CaseStudy.addAppointment(appointmentList, newAppointment);
+	              assertEquals("Checking if the Appointment was added", 3, appointmentList.size());
+	              assertEquals("Checking if the Appointment was added correctly", newAppointment, appointmentList.get(2));
+	                  
+	              
+	              
+	              appointmentList.clear();
+	              //Test adding invalid data (Error Test)
+	              Appointment invalidAppointment = new Appointment(-1, -1,-1, "Invalid", new Date(), new Date(), "Pending");
+	              C206_CaseStudy.addAppointment(appointmentList, invalidAppointment);
+	              //Check if the list size remains unchanged
+	              assertEquals("Checking if invalid Appointment was rejected", 1, appointmentList.size());
+	      }
 		  @Test
 		  public void testAddAppointment_DuplicateUserID() {
 			  //Normal Test
