@@ -1,3 +1,4 @@
+
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -9,7 +10,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.text.ParseException;
 public class C206_CaseStudy {
-	private static final int OPTION_QUIT = 7;
+	private static final int OPTION_QUIT = 7; //refractor(extract constant)
 
 	public static void main(String[] args) {
  	ArrayList<User> userList = new ArrayList<User>();
@@ -40,7 +41,7 @@ public class C206_CaseStudy {
 	
     int choice = 0;
    
-    while (choice!=OPTION_QUIT) {
+    while (choice!=OPTION_QUIT) {//refractor(extract constant)
     	
     	C206_CaseStudy.menu();
     	choice = Helper.readInt("Enter an option > ");
@@ -174,7 +175,7 @@ public class C206_CaseStudy {
     
  	
     	
-	} else if  (choice==OPTION_QUIT) {
+	} else if  (choice==OPTION_QUIT) {//refractor(extract constant)
 		System.out.println("Bye!");
     		}
     }
@@ -703,12 +704,15 @@ public class C206_CaseStudy {
 	    }
 		  
 		  //Request
-		    public static void menuRequest() {
-			    C206_CaseStudy.setHeader("Requests");
-			    System.out.println("1. Add Requests");
-			    System.out.println("2. View all Requests");
-			    System.out.println("3. Delete Requests");
+		    public static void menuRequest() {//Refactor(extract)
+			    requestMenu(); //Refactor(extract)
 		    }
+		public static void requestMenu() {
+			C206_CaseStudy.setHeader("Requests");
+			System.out.println("1. Add Requests");
+			System.out.println("2. View all Requests");
+			System.out.println("3. Delete Requests");
+		}
 		    public static Request inputRequest(ArrayList<Request> requestList) {
 		        int requestID=0;
 		        int userID=0;
@@ -725,9 +729,10 @@ public class C206_CaseStudy {
 		                System.out.println("Request ID cannot be empty.");
 		            } else {
 		                boolean idExists = false;
-		                for (Request existingRequest : requestList) {
-		                    if (existingRequest.getRequestid() == requestID) {
-		                        idExists = true;
+		                for (Request existingRequest : requestList) { 
+		                    int requestid2 = existingRequest.getRequestid();  //Refactor(variable)
+							if (requestid2 == requestID) {  //refactor(variable)
+		                        idExists = true;  
 		                        break;
 		                    }
 		                }
@@ -828,18 +833,31 @@ public class C206_CaseStudy {
 		    SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 
 		    for (int i = 0; i < requestList.size(); i++) {
-		        String formattedRequestDate = dateFormat.format(requestList.get(i).getRequestDate());
-		        String formattedStartDate = dateFormat.format(requestList.get(i).getStartDate());
+		        Date requestDate = requestList.get(i).getRequestDate(); //Refactor(variable)
+				String formattedRequestDate = dateFormat.format(requestDate);//Refactor(variable)
+		        Date startDate = requestList.get(i).getStartDate(); //Refactor(variable)
+				String formattedStartDate = dateFormat.format(startDate);  //Refactor(variable)
 
-		        output += String.format("%-15s %-20s %-30s %-20s %-20s %-20s %-20s %-20s\n",
-		                requestList.get(i).getRequestid(),
-		                requestList.get(i).getUserId(),
-		                requestList.get(i).getServiceName(),
-		                requestList.get(i).getProjectdescription(),
-		                requestList.get(i).getBudget(),
-		                formattedRequestDate,
-		                formattedStartDate,
-		                requestList.get(i).getRequestStatus());
+		        String requestStatus = requestList.get(i).getRequestStatus();//refactor(local variable)
+				Double budget2 = requestList.get(i).getBudget();//refactor(local variable)
+				Double budget = budget2;//refactor(local variable)
+				String projectdescription2 = requestList.get(i).getProjectdescription();//refactor(local variable)
+				String projectdescription = projectdescription2;//refactor(local variable)
+				String serviceName2 = requestList.get(i).getServiceName();//refactor(local variable)
+				String serviceName = serviceName2;//refactor(local variable)
+				int userId2 = requestList.get(i).getUserId();//refactor(local variable)
+				int userId = userId2;//refactor(local variable)
+				int requestid2 = requestList.get(i).getRequestid();//refactor(local variable)
+				int requestid = requestid2;//refactor(local variable)
+				output += String.format("%-15s %-20s %-30s %-20s %-20s %-20s %-20s %-20s\n",
+		                requestid, //Refactor(variable)
+		                userId,    //Refactor(variable)
+		                serviceName,  //Refactor(variable)
+		                projectdescription,  //Refactor(variable)
+		                budget,  //Refactor(variable)
+		                formattedRequestDate,//Refactor(variable)
+		                formattedStartDate,//Refactor(variable)
+		                requestStatus);//Refactor(variable)
 		    }
 		    return output;
 		}
@@ -854,7 +872,8 @@ public class C206_CaseStudy {
 		        boolean requestFound = false; // Flag to indicate if the request is found
 		        
 		        for (Request request : requestList) {
-		            if (request.getRequestid() == requestID) {
+		            int requestid2 = request.getRequestid();//Refactor(variable)
+					if (requestid2 == requestID) { //Refactor(variable)
 		                requestToRemove = request;
 		                requestFound = true;
 		                break;
@@ -880,7 +899,7 @@ public class C206_CaseStudy {
 		            
 		            
 		            int newRequestID = Helper.readInt("Please enter the request ID again> ");
-		            deleteRequest(requestList, newRequestID); // Recursively call deleteRequest
+		            deleteRequest(requestList, newRequestID); 
 		        }
 		    }
 
@@ -891,19 +910,24 @@ public class C206_CaseStudy {
 
 		public static int addRequest(ArrayList<Request> requestList, Request r) {
 		    for(Request request:requestList) {
-		    	if(request.getRequestid()==r.getRequestid()) {
+		    	int requestid = request.getRequestid();//refractor(local variable)
+				if(requestid==r.getRequestid()) { //refractor(local variable)
 		    		return ADD_INVALID_REQUESTID;
 		    	}
 		    }
 		    for(Request user:requestList) {
-		    	if(user.getUserId()==r.getUserId()) {
+		    	int userId = user.getUserId();//Refactor(local variable)
+				if(userId==r.getUserId()) {//Refactor(local vaariable)
 		    		return ADD_INVALID_USERID;
 		    	}
 		    }
 		requestList.add(r);
 		return ADD_SUCCESS;
 		}
-		public static void menuAppointment() {
+		public static void menuAppointment() {//refactor(extract)
+			appointmentMenu(); //refactor(extract)
+		}
+		public static void appointmentMenu() {
 			C206_CaseStudy.setHeader("Appointments");
 			System.out.println("1. Add Appointments");
 			System.out.println("2. View all Appointments");
@@ -924,7 +948,8 @@ public class C206_CaseStudy {
 		        } else {
 		            boolean idExists = false;
 		            for (Appointment existingAppointment : appointmentList) {
-		                if (existingAppointment.getAppointmentid() == appointmentID) {
+		                int appointmentid2 = existingAppointment.getAppointmentid();//refactor(local variable)
+						if (appointmentid2 == appointmentID) {//refactor(local variable)
 		                    idExists = true;
 		                    break;
 		                }
@@ -947,7 +972,8 @@ public class C206_CaseStudy {
 		       } else {
 		           boolean idExists = false;
 		           for (Appointment existingUser : appointmentList) {
-		               if (existingUser.getUserId() == userID) {
+		               int userId2 = existingUser.getUserId();//refactor(local variable)
+					if (userId2 == userID) {//refactor(local variable)
 		                   idExists = true;
 		                   break;
 		               }
@@ -970,7 +996,8 @@ public class C206_CaseStudy {
 		      } else {
 		          boolean idExists = false;
 		          for (Appointment existingServiceProvider : appointmentList) {
-		              if (existingServiceProvider.getServiceproviderId() == serviceProviderID) {
+		              int serviceproviderId2 = existingServiceProvider.getServiceproviderId();//refactor(local variable)
+					if (serviceproviderId2 == serviceProviderID) {//refactor(local variable)
 		                  idExists = true;
 		                  break;
 		              }
@@ -1036,17 +1063,29 @@ public class C206_CaseStudy {
 		       SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 		    
 		       for (int i = 0; i < appointmentList.size(); i++) {
-		           String formattedDate = dateFormat.format(appointmentList.get(i).getAppointmentDate());
-		           String formattedTime = new SimpleDateFormat("hh:mm a").format(appointmentList.get(i).getAppointmentTime());
+		           Date appointmentDate = appointmentList.get(i).getAppointmentDate();//refactor(local variable)
+				String formattedDate = dateFormat.format(appointmentDate);//refactor(local variable)
+		           Date appointmentTime = appointmentList.get(i).getAppointmentTime();//refactor(local variable)
+				String formattedTime = new SimpleDateFormat("hh:mm a").format(appointmentTime);//refactor(local variable)
 
-		           output += String.format("%-15s %-20s %-30s %-20s %-20s %-20s %-20s\n",
-		                appointmentList.get(i).getAppointmentid(),
-		                appointmentList.get(i).getUserId(),
-		                appointmentList.get(i).getServiceproviderId(),
-		                appointmentList.get(i).getAdditionalDetails(),
-		                formattedDate,
-		                formattedTime,
-		                appointmentList.get(i).getAppointmentStatus());
+		           String appointmentStatus2 = appointmentList.get(i).getAppointmentStatus();//refactor(local variable)
+				String appointmentStatus = appointmentStatus2;//refactor(local variable)
+				String additionalDetails2 = appointmentList.get(i).getAdditionalDetails();//refactor(local variable)
+				String additionalDetails = additionalDetails2;//refactor(local variable)
+				int serviceproviderId2 = appointmentList.get(i).getServiceproviderId();//refactor(local variable)
+				int serviceproviderId = serviceproviderId2;//refactor(local variable)
+				int userId2 = appointmentList.get(i).getUserId();//refactor(local variable)
+				int userId = userId2;//refactor(local variable)
+				int appointmentid2 = appointmentList.get(i).getAppointmentid();//refactor(local variable)
+				int appointmentid = appointmentid2;//refactor(local variable)
+				output += String.format("%-15s %-20s %-30s %-20s %-20s %-20s %-20s\n",
+		                appointmentid,//refactor(local variable)
+		                userId,//refactor(local variable)
+		                serviceproviderId,//refactor(local variable)
+		                additionalDetails,//refactor(local variable)
+		                formattedDate,//refactor(local variable)
+		                formattedTime,//refactor(local variable)
+		                appointmentStatus);//refactor(local variable)
 		    }
 		        return output;
 		}
@@ -1067,7 +1106,8 @@ public class C206_CaseStudy {
 		         boolean appointmentFound = false; 
 		         
 		         for (Appointment a : appointmentList) {
-		             if (a.getAppointmentid() == appointmentID) {
+		             int appointmentid2 = a.getAppointmentid();//refactor(local variable)
+					if (appointmentid2 == appointmentID) { //refactor(local variable)
 		                 appointmentToRemove = a;
 		                 appointmentFound = true;
 		                 break;
@@ -1093,7 +1133,7 @@ public class C206_CaseStudy {
 		             
 		             
 		             int newAppointmentID = Helper.readInt("Please enter the appointment ID again> ");
-		             deleteAppointment(appointmentList, newAppointmentID); // Recursively call deleteRequest
+		             deleteAppointment(appointmentList, newAppointmentID); 
 		         }
 		     }
 		   
@@ -1104,19 +1144,22 @@ public class C206_CaseStudy {
 
 		    public static int addAppointment(ArrayList<Appointment> appointmentList, Appointment a) {
 		        for(Appointment appointment:appointmentList) {
-		    	    if(appointment.getAppointmentid()==a.getAppointmentid()) {
+		    	    int appointmentid = appointment.getAppointmentid();//refactor (local variable)
+					if(appointmentid==a.getAppointmentid()) {//refactor(local variable)
 		    		    return ADD_INVALID_APPOINTMENTID;
 		    	}
 		    }
 		        for(Appointment user:appointmentList) {
-		        	if(user.getUserId()== a.getUserId()) {
+		        	int userId = user.getUserId();//refactor(local variable)
+					if(userId== a.getUserId()) {//refactor(local variable)
 		        		return ADD_INVALID_USERID;
 		        	}
 		        	
 		        }
 		        	
 		        for(Appointment serviceProvider:appointmentList) {
-		        	if(serviceProvider.getServiceproviderId()==a.getServiceproviderId()) {
+		        	int serviceproviderId = serviceProvider.getServiceproviderId();//refactor(local variable)
+					if(serviceproviderId==a.getServiceproviderId()) {//refactor(local variable)
 		        		return ADD_INVALID_SERVICEPROVIDERID;
 		        	}
 		        	
@@ -1175,4 +1218,3 @@ public class C206_CaseStudy {
 		}
 	 
 }
-
