@@ -57,6 +57,9 @@ public class C206_CaseStudy {
     			
     		}else if (a==3) {
     			String NameToDelete = Helper.readString("Enter the name of the user to delete: ");
+    			while (NameToDelete.isEmpty()) {
+    				NameToDelete = Helper.readString("Enter the name of the user to delete: ");
+    			}
     		    C206_CaseStudy.deleteUser(userList, NameToDelete);
     		}else {
     			System.out.println("INVALID OPTION");
@@ -262,6 +265,7 @@ public class C206_CaseStudy {
 	    output += retrieveAllUser(userList);
 	    System.out.println(output);
 	}
+	
 	public static void deleteUser(ArrayList<User> userList, String name) {
 	    boolean found = false;
 	    User userToRemove = null;
@@ -279,13 +283,19 @@ public class C206_CaseStudy {
 	        if (confirmation.equalsIgnoreCase("yes")) {
 	            userList.remove(userToRemove);
 	            System.out.println("*** User deleted ***");
-	        } else {
+	        } else if (confirmation.equalsIgnoreCase("no")) {
 	            System.out.println("Deletion canceled.");
+	            return;
+	        }else {
+	        	System.out.println("Invalid Input");
 	        }
+	        
 	    } else {
-	        System.out.println("User with the specified name not found.");
+	    System.out.println("User with the specified name not found.");
 	    }
 	}
+	
+	
 	
 	
 	public static final int ADD_SUCCESS = 0;
@@ -437,7 +447,10 @@ public class C206_CaseStudy {
 
 	public static boolean checkSPName(ArrayList<ServiceProvider> spList, String name) {
 		for (ServiceProvider i : spList) {
-			if (i.getName().equalsIgnoreCase(name)) {
+			if (name.isEmpty()) {
+				System.out.println("Name cannot be empty");
+				return false;
+			} else if (i.getName().equalsIgnoreCase(name)) {
 				System.out.println("Name Already Exist");
 				return false;
 			}
@@ -449,7 +462,10 @@ public class C206_CaseStudy {
 
 	public static boolean checkNumber(int number) {
 		String numberString = Integer.toString(number);
-		if (numberString.length() != 8) {
+		if (numberString.length() == 0) {
+			System.out.println("Number cannot be empty");
+			return false;
+		} else if(numberString.length() != 8) {
 			System.out.println("Invalid Number");
 			return false;
 		}
