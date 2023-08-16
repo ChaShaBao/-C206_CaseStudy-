@@ -725,6 +725,30 @@ public class C206_CaseStudyTest {
 		        return false;
 		    }
 	   
+		    //Quotes
+		    
+		    
+		    @Test
+			  public void testValidDateFormat(){
+				  //Normal Test
+				   // Test valid dates in the correct format of ("dd-MM-yyyy")
+				    //Boundary Test
+				    assertTrue(isValidDateFormat("05-10-2023"));
+			        assertTrue(isValidDateFormat("11-12-2022"));
+			        assertTrue(isValidDateFormat("12-01-2023"));
+			        
+			        
+			        // Test invalid dates ( anything that is not ("dd-MM-yyyy"))
+			        //Error Test
+			        assertFalse(isValidDateFormat("2023-01-01"));
+			        assertFalse(isValidDateFormat("01-2023-01"));
+			        assertFalse(isValidDateFormat("01-01-23"));
+			        assertFalse(isValidDateFormat("31/12/2023"));
+			        assertFalse(isValidDateFormat("01.01.2023"));
+				  
+			  }
+
+		 
 
 	
 } 
